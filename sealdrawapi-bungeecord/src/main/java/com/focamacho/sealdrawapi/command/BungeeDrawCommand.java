@@ -5,6 +5,7 @@ import com.focamacho.sealdrawapi.api.AbstractPaint;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ChatEvent;
+import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 import net.md_5.bungee.event.EventPriority;
@@ -61,6 +62,12 @@ public class BungeeDrawCommand implements Listener {
             execute((CommandSender) event.getSender(), event.getMessage().replace("/sdwa ", "").split(" "));
             event.setCancelled(true);
         }
+    }
+
+    @EventHandler
+    public void onQuit(PlayerDisconnectEvent event) {
+        AbstractPaint paint = SealDrawAPIBungee.api.getPaint(event.getPlayer());
+        paint.closePaint(event.getPlayer());
     }
 
 }

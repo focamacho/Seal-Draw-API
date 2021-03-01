@@ -7,6 +7,7 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.Order;
 import org.spongepowered.api.event.command.SendCommandEvent;
+import org.spongepowered.api.event.network.ClientConnectionEvent;
 
 public class SpongeDrawCommand {
 
@@ -60,6 +61,12 @@ public class SpongeDrawCommand {
             execute((CommandSource) event.getSource(), event.getArguments().split(" "));
             event.setCancelled(true);
         }
+    }
+
+    @Listener
+    public void onQuit(ClientConnectionEvent.Disconnect event) {
+        AbstractPaint paint = SealDrawAPISponge.api.getPaint(event.getTargetEntity());
+        paint.closePaint(event.getTargetEntity());
     }
 
 }

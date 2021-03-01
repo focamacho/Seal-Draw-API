@@ -8,6 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 public class BukkitDrawCommand implements Listener {
 
@@ -60,6 +61,12 @@ public class BukkitDrawCommand implements Listener {
             execute(event.getPlayer(), event.getMessage().replace("/sdwa ", "").split(" "));
             event.setCancelled(true);
         }
+    }
+
+    @EventHandler
+    public void onQuit(PlayerQuitEvent event) {
+        AbstractPaint paint = SealDrawAPIBukkit.api.getPaint(event.getPlayer());
+        paint.closePaint(event.getPlayer());
     }
 
 }
