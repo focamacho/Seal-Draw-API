@@ -1,0 +1,3 @@
+rootProject.name = 'sealdrawapi'
+
+include 'sealdrawapi-common', 'sealdrawapi-bukkit', 'sealdrawapi-sponge', 'sealdrawapi-bungeecord'

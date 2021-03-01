@@ -1,0 +1,31 @@
+plugins {
+    id 'com.github.johnrengelman.shadow'
+}
+
+repositories {
+    maven {
+        name = 'spigotmc-repo'
+        url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+    }
+}
+
+dependencies {
+    compile project(':sealdrawapi-common')
+    compileOnly 'org.bukkit:bukkit:1.12.2-R0.1-SNAPSHOT'
+    compileOnly group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.14.0'
+    compileOnly group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.14.0'
+}
+
+processResources {
+    from(sourceSets.main.resources.srcDirs) {
+        expand 'version': project.version
+    }
+}
+
+shadowJar {
+    dependencies {
+        include(dependency(':sealdrawapi-common'))
+    }
+}
+
+tasks.build.dependsOn tasks.shadowJar

@@ -1,0 +1,27 @@
+apply plugin: 'com.github.johnrengelman.shadow'
+
+repositories {
+    maven {
+        name = 'sonatype'
+        url = 'https://oss.sonatype.org/content/groups/public/'
+    }
+}
+
+dependencies {
+    compile project(':sealdrawapi-common')
+    compileOnly 'net.md-5:bungeecord-api:1.12-SNAPSHOT'
+}
+
+processResources {
+    from(sourceSets.main.resources.srcDirs) {
+        expand 'version': project.version
+    }
+}
+
+shadowJar {
+    dependencies {
+        include(dependency(':sealdrawapi-common'))
+    }
+}
+
+tasks.build.dependsOn tasks.shadowJar
