@@ -16,6 +16,7 @@ public class SealDrawAPI {
      */
     public SealDrawAPI(Object plugin) {
         this.plugin = plugin;
+        Implementations.init(this);
     }
 
     /**
