@@ -55,9 +55,9 @@ public class SpongeDrawCommand {
 
     @Listener(order = Order.PRE)
     public void onCommand(SendCommandEvent event) {
-        if(event.getCommand().startsWith("/sdwa")) {
+        if(event.getCommand().startsWith("sdwa")) {
             if(!(event.getSource() instanceof CommandSource)) return;
-            execute((CommandSource) event.getSource(), event.getCommand().replace("/sdwa ", "").split(" "));
+            execute((CommandSource) event.getSource(), event.getArguments().split(" "));
             event.setCancelled(true);
         }
     }
