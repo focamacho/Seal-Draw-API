@@ -66,7 +66,7 @@ public class SpongeDrawCommand {
     @Listener
     public void onQuit(ClientConnectionEvent.Disconnect event) {
         AbstractPaint paint = SealDrawAPISponge.api.getPaint(event.getTargetEntity());
-        paint.closePaint(event.getTargetEntity());
+        if(paint != null) paint.closePaint(event.getTargetEntity());
     }
 
 }

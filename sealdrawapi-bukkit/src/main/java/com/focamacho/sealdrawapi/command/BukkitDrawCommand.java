@@ -66,7 +66,7 @@ public class BukkitDrawCommand implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         AbstractPaint paint = SealDrawAPIBukkit.api.getPaint(event.getPlayer());
-        paint.closePaint(event.getPlayer());
+        if(paint != null) paint.closePaint(event.getPlayer());
     }
 
 }

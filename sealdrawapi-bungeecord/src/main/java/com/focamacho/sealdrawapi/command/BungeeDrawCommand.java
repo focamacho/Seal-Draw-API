@@ -67,7 +67,7 @@ public class BungeeDrawCommand implements Listener {
     @EventHandler
     public void onQuit(PlayerDisconnectEvent event) {
         AbstractPaint paint = SealDrawAPIBungee.api.getPaint(event.getPlayer());
-        paint.closePaint(event.getPlayer());
+        if(paint != null) paint.closePaint(event.getPlayer());
     }
 
 }
