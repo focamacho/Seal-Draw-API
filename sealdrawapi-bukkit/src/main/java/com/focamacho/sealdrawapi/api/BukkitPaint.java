@@ -31,7 +31,7 @@ public class BukkitPaint extends AbstractPaint {
     @Override
     public void updatePaint() {
         for (Object p : players.keySet()) {
-            onUpdate.run(p, this.drawing);
+            onUpdate.run(p, this);
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + ((Player)p).getName() + " " + getEditorMessage(p));
         }
     }

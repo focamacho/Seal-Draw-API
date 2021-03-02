@@ -32,7 +32,7 @@ public class SpongePaint extends AbstractPaint {
     @Override
     public void updatePaint() {
         for (Object p : players.keySet()) {
-            onUpdate.run(p, this.drawing);
+            onUpdate.run(p, this);
             Sponge.getCommandManager().process(Sponge.getServer().getConsole(), "tellraw " + ((Player)p).getName() + " " + getEditorMessage(p));
         }
     }

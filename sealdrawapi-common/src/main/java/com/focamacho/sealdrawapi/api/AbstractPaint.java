@@ -1,6 +1,6 @@
 package com.focamacho.sealdrawapi.api;
 
-import com.focamacho.sealdrawapi.api.lib.IDrawingRunnable;
+import com.focamacho.sealdrawapi.api.lib.IPaintRunnable;
 
 import java.util.*;
 
@@ -27,12 +27,12 @@ public abstract class AbstractPaint {
     private ChatButton confirmButton = ChatButton.create().setText("§a[Confirmar]").setHoverText("§aClique aqui para confirmar.").setAction(ChatButton.ActionType.RUN_COMMAND, "/sdwa b co");
     private ChatButton colorButton = ChatButton.create().setText("§%color%█").setHoverText("§%color%Clique aqui para escolher essa cor.").setAction(ChatButton.ActionType.RUN_COMMAND, "/sdwa c %color%");
 
-    protected IDrawingRunnable onCancel = (player, drawing) -> closePaint(player);
-    protected IDrawingRunnable onConfirm = (player, drawing) -> closePaint(player);
-    protected IDrawingRunnable onClean = (player, drawing) -> clear();
-    protected IDrawingRunnable onOpen = (player, drawing) -> {};
-    protected IDrawingRunnable onUpdate = (player, drawing) -> {};
-    protected IDrawingRunnable onClose = (player, drawing) -> {};
+    protected IPaintRunnable onCancel = (player, paint) -> paint.closePaint(player);
+    protected IPaintRunnable onConfirm = (player, paint) -> paint.closePaint(player);
+    protected IPaintRunnable onClean = (player, paint) -> clear();
+    protected IPaintRunnable onOpen = (player, paint) -> {};
+    protected IPaintRunnable onUpdate = (player, paint) -> {};
+    protected IPaintRunnable onClose = (player, paint) -> {};
 
     /**
      * O construtor padrão para a criação
@@ -57,7 +57,7 @@ public abstract class AbstractPaint {
         AbstractPaint paint = getPaint(player);
         if(paint != null) paint.closePaint(player);
 
-        onOpen.run(player, this.drawing);
+        onOpen.run(player, this);
     }
 
     /**
@@ -66,7 +66,7 @@ public abstract class AbstractPaint {
      * @param player o jogador.
      */
     public void closePaint(Object player) {
-        if(players.containsKey(player)) onClose.run(player, this.drawing);
+        if(players.containsKey(player)) onClose.run(player, this);
         players.remove(player);
         if(players.isEmpty()) allPaints.remove(this);
     }
@@ -83,7 +83,7 @@ public abstract class AbstractPaint {
         Iterator<Map.Entry<Object, Character>> playersIterator = players.entrySet().iterator();
         while(playersIterator.hasNext()) {
             Map.Entry<Object, Character> entry = playersIterator.next();
-            if(fireRunnable) onClose.run(entry.getKey(), this.drawing);
+            if(fireRunnable) onClose.run(entry.getKey(), this);
             playersIterator.remove();
         }
         allPaints.remove(this);
@@ -374,7 +374,7 @@ public abstract class AbstractPaint {
      * @param onCancel o IDrawingRunnable para
      *                 ser executado.
      */
-    public AbstractPaint setOnCancel(IDrawingRunnable onCancel) {
+    public AbstractPaint setOnCancel(IPaintRunnable onCancel) {
         this.onCancel = onCancel;
         return this;
     }
@@ -386,7 +386,7 @@ public abstract class AbstractPaint {
      * @param onConfirm o IDrawingRunnable para
      *                 ser executado.
      */
-    public AbstractPaint setOnConfirm(IDrawingRunnable onConfirm) {
+    public AbstractPaint setOnConfirm(IPaintRunnable onConfirm) {
         this.onConfirm = onConfirm;
         return this;
     }
@@ -398,7 +398,7 @@ public abstract class AbstractPaint {
      * @param onClean o IDrawingRunnable para
      *                 ser executado.
      */
-    public AbstractPaint setOnClean(IDrawingRunnable onClean) {
+    public AbstractPaint setOnClean(IPaintRunnable onClean) {
         this.onClean = onClean;
         return this;
     }
@@ -409,7 +409,7 @@ public abstract class AbstractPaint {
      * @param onOpen o IDrawingRunnable para
      *                 ser executado.
      */
-    public AbstractPaint setOnOpen(IDrawingRunnable onOpen) {
+    public AbstractPaint setOnOpen(IPaintRunnable onOpen) {
         this.onOpen = onOpen;
         return this;
     }
@@ -425,7 +425,7 @@ public abstract class AbstractPaint {
      * @param onUpdate o IDrawingRunnable para
      *                 ser executado.
      */
-    public AbstractPaint setOnUpdate(IDrawingRunnable onUpdate) {
+    public AbstractPaint setOnUpdate(IPaintRunnable onUpdate) {
         this.onUpdate = onUpdate;
         return this;
     }
@@ -437,7 +437,7 @@ public abstract class AbstractPaint {
      * @param onClose o IDrawingRunnable para
      *                 ser executado.
      */
-    public AbstractPaint setOnClose(IDrawingRunnable onClose) {
+    public AbstractPaint setOnClose(IPaintRunnable onClose) {
         this.onClose = onClose;
         return this;
     }
@@ -448,7 +448,7 @@ public abstract class AbstractPaint {
      * cancelar no editor.
      * @return a ação ao cancelar.
      */
-    public IDrawingRunnable getOnCancel() {
+    public IPaintRunnable getOnCancel() {
         return this.onCancel;
     }
 
@@ -458,7 +458,7 @@ public abstract class AbstractPaint {
      * confirmar no editor.
      * @return a ação ao confirmar.
      */
-    public IDrawingRunnable getOnConfirm() {
+    public IPaintRunnable getOnConfirm() {
         return this.onConfirm;
     }
 
@@ -468,7 +468,7 @@ public abstract class AbstractPaint {
      * limpar no editor.
      * @return a ação ao limpar.
      */
-    public IDrawingRunnable getOnClean() {
+    public IPaintRunnable getOnClean() {
         return this.onClean;
     }
 
@@ -477,7 +477,7 @@ public abstract class AbstractPaint {
      * executada ao abrir o editor.
      * @return a ação ao abrir.
      */
-    public IDrawingRunnable getOnOpen() {
+    public IPaintRunnable getOnOpen() {
         return this.onOpen;
     }
 
@@ -486,7 +486,7 @@ public abstract class AbstractPaint {
      * executada ao atualizar o editor.
      * @return a ação ao atualizar.
      */
-    public IDrawingRunnable getOnUpdate() {
+    public IPaintRunnable getOnUpdate() {
         return this.onUpdate;
     }
 
@@ -495,7 +495,7 @@ public abstract class AbstractPaint {
      * executada ao fechar o editor.
      * @return a ação ao fechar.
      */
-    public IDrawingRunnable getOnClose() {
+    public IPaintRunnable getOnClose() {
         return this.onClose;
     }
 

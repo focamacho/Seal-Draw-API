@@ -42,11 +42,11 @@ public class BukkitDrawCommand implements Listener {
                 //Trocar a cor selecionada
                 if(args[0].equalsIgnoreCase("b")) {
                     if(args[1].equalsIgnoreCase("co")) {
-                        paint.getOnConfirm().run(player, paint.getDrawing());
+                        paint.getOnConfirm().run(player, paint);
                     } else if(args[1].equalsIgnoreCase("ca")) {
-                        paint.getOnCancel().run(player, paint.getDrawing());
+                        paint.getOnCancel().run(player, paint);
                     } else if(args[1].equalsIgnoreCase("cl")) {
-                        paint.getOnClean().run(player, paint.getDrawing());
+                        paint.getOnClean().run(player, paint);
                         paint.updatePaint();
                     }
                 }

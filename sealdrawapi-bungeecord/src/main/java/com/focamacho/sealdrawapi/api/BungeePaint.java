@@ -32,7 +32,7 @@ public class BungeePaint extends AbstractPaint {
     @Override
     public void updatePaint() {
         for (Object p : players.keySet()) {
-            onUpdate.run(p, this.drawing);
+            onUpdate.run(p, this);
             ((ProxiedPlayer)p).sendMessage(ComponentSerializer.parse(getEditorMessage(p)));
         }
     }
