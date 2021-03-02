@@ -15,15 +15,17 @@ public abstract class AbstractPaint {
 
     public Map<Object, Character> players = new HashMap<>();
     protected Drawing drawing;
+    private boolean stopChat = true;
 
-    private String beforeMessage = "                             §d§lSeal Draw API %selected%\n                      %colorselector%\n";
+    private String beforeMessage = "                             §d§lSeal Draw API §%selected%█\\n                      %colorselector%\\n";
     private String afterMessage = "                    %cancel% %clean% %confirm%";
     private int spaces = 22;
     private char[] availableColors = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
-    private String cancelText = "§c[Cancelar]";
-    private String cleanText = "§f[Limpar]";
-    private String confirmText = "§a[Confirmar]";
+    private ChatButton cancelButton = ChatButton.create().setText("§c[Cancelar]").setHoverText("§cClique aqui para cancelar.").setAction(ChatButton.ActionType.RUN_COMMAND, "/sdwa b ca");
+    private ChatButton cleanButton = ChatButton.create().setText("§f[Limpar]").setHoverText("§fClique aqui para limpar.").setAction(ChatButton.ActionType.RUN_COMMAND, "/sdwa b cl");
+    private ChatButton confirmButton = ChatButton.create().setText("§a[Confirmar]").setHoverText("§aClique aqui para confirmar.").setAction(ChatButton.ActionType.RUN_COMMAND, "/sdwa b co");
+    private ChatButton colorButton = ChatButton.create().setText("§%color%█").setHoverText("§%color%Clique aqui para escolher essa cor.").setAction(ChatButton.ActionType.RUN_COMMAND, "/sdwa c %color%");
 
     protected IDrawingRunnable onCancel = (player, drawing) -> closePaint(player);
     protected IDrawingRunnable onConfirm = (player, drawing) -> closePaint(player);
@@ -219,9 +221,13 @@ public abstract class AbstractPaint {
      * Define o texto que é exibido no
      * botão de cancelar.
      * @param text o texto desejado.
+     * @param hover o texto desejado ao passar
+     *              o mouse no botão.
      */
-    public AbstractPaint setCancelText(String text) {
-        this.cancelText = text.replace("&", "§").replace("\\n", "\n").replace("\n", "\\n");
+    public AbstractPaint setCancelText(String text, String hover) {
+        this.cancelButton = ChatButton.create().setText(text.replace("&", "§").replace("\\n", "\n").replace("\n", "\\n"))
+            .setHoverText(hover.replace("&", "§").replace("\\n", "\n").replace("\n", "\\n"))
+                .setAction(ChatButton.ActionType.RUN_COMMAND, "/sdwa b ca");
         return this;
     }
 
@@ -229,9 +235,13 @@ public abstract class AbstractPaint {
      * Define o texto que é exibido no
      * botão de limpar.
      * @param text o texto desejado.
+     * @param hover o texto desejado ao passar
+     *              o mouse no botão.
      */
-    public AbstractPaint setCleanText(String text) {
-        this.cleanText = text.replace("&", "§").replace("\\n", "\n").replace("\n", "\\n");
+    public AbstractPaint setCleanText(String text, String hover) {
+        this.cleanButton = ChatButton.create().setText(text.replace("&", "§").replace("\\n", "\n").replace("\n", "\\n"))
+                .setHoverText(hover.replace("&", "§").replace("\\n", "\n").replace("\n", "\\n"))
+                .setAction(ChatButton.ActionType.RUN_COMMAND, "/sdwa b cl");
         return this;
     }
 
@@ -239,9 +249,27 @@ public abstract class AbstractPaint {
      * Define o texto que é exibido no
      * botão de confirmar.
      * @param text o texto desejado.
+     * @param hover o texto desejado ao passar
+     *              o mouse no botão.
      */
-    public AbstractPaint setConfirmText(String text) {
-        this.confirmText = text.replace("&", "§").replace("\\n", "\n").replace("\n", "\\n");
+    public AbstractPaint setConfirmText(String text, String hover) {
+        this.confirmButton = ChatButton.create().setText(text.replace("&", "§").replace("\\n", "\n").replace("\n", "\\n"))
+                .setHoverText(hover.replace("&", "§").replace("\\n", "\n").replace("\n", "\\n"))
+                .setAction(ChatButton.ActionType.RUN_COMMAND, "/sdwa b co");
+        return this;
+    }
+
+    /**
+     * Define o texto que é exibido no
+     * botão de escolha de cor.
+     * @param text o texto desejado.
+     * @param hover o texto desejado ao passar
+     *              o mouse no botão.
+     */
+    public AbstractPaint setColorText(String text, String hover) {
+        this.colorButton = ChatButton.create().setText(text.replace("&", "§").replace("\\n", "\n").replace("\n", "\\n"))
+                .setHoverText(hover.replace("&", "§").replace("\\n", "\n").replace("\n", "\\n"))
+                .setAction(ChatButton.ActionType.RUN_COMMAND, "/sdwa c %color%");
         return this;
     }
 
@@ -267,11 +295,11 @@ public abstract class AbstractPaint {
 
         //Texto antes do editor
         stringBuilder.append("[\"\",{\"text\":\"").append(this.beforeMessage
-                .replace("%selected%", ("\"},{\"text\":\"§" + players.getOrDefault(player, '0') + "█\"},{\"text\":\""))
+                .replace("%selected%", "" + players.getOrDefault(player, '0'))
                 .replace("%colorselector%", getColorSelector())
-                .replace("%confirm%", getConfirmButton())
-                .replace("%cancel%", getCancelButton())
-                .replace("%clean%", getCleanButon()));
+                .replace("%confirm%", "\"}," + confirmButton.toJson() + ",{\"text\":\"")
+                .replace("%cancel%", "\"}," + cancelButton.toJson() + ",{\"text\":\"")
+                .replace("%clean%", "\"}," + cleanButton.toJson() + ",{\"text\":\""));
 
         if(beforeMessage.isEmpty()) stringBuilder.append("\"},{\"text\":\"");
         else stringBuilder.append("\\n\"},{\"text\":\"");
@@ -297,11 +325,11 @@ public abstract class AbstractPaint {
 
         //Texto após o editor
         stringBuilder.append(this.afterMessage
-                .replace("%selected%", ("\"},{\"text\":\"§" + players.getOrDefault(player, '0') + "█\"},{\"text\":\""))
+                .replace("%selected%", "" + players.getOrDefault(player, '0'))
                 .replace("%colorselector%", getColorSelector())
-                .replace("%confirm%", getConfirmButton())
-                .replace("%cancel%", getCancelButton())
-                .replace("%clean%", getCleanButon())).append("\"}]");
+                .replace("%confirm%", "\"}," + confirmButton.toJson() + ",{\"text\":\"")
+                .replace("%cancel%", "\"}," + cancelButton.toJson() + ",{\"text\":\"")
+                .replace("%clean%", "\"}," + cleanButton.toJson() + ",{\"text\":\"")).append("\"}]");
 
         return stringBuilder.toString().replace("{\"text\":\"\"},", "");
     }
@@ -314,50 +342,18 @@ public abstract class AbstractPaint {
      */
     protected String getColorSelector() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("\"},{\"text\":\"");
+        stringBuilder.append("\"},");
 
         for (char availableColor : availableColors) {
-            stringBuilder.append("§")
-                    .append(availableColor)
-                    .append("█\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/sdwa c ")
-                    .append(availableColor).append("\"}},{\"text\":\"");
+            ChatButton button = ChatButton.create()
+                    .setText(colorButton.getText().replace("%color%", "" + availableColor))
+                    .setHoverText(colorButton.getHoverText().replace("%color%", "" + availableColor));
+            if(colorButton.getAction() != null) button.setAction(colorButton.getAction().getKey(), colorButton.getAction().getValue().replace("%color%", "" + availableColor));
+            stringBuilder.append(button.toJson()).append(",");
         }
 
-        stringBuilder.append("\"},{\"text\":\"");
+        stringBuilder.append("{\"text\":\"");
         return stringBuilder.toString();
-    }
-
-    /**
-     * Retorna a mensagem em JSON utilizada
-     * para o botão de confirmar.
-     * Método usado somente internamente.
-     * @return a mensagem em JSON do editor.
-     */
-    protected String getConfirmButton() {
-        return "\"},{\"text\":\"" + confirmText +
-                "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/sdwa b co\"}},{\"text\":\"";
-    }
-
-    /**
-     * Retorna a mensagem em JSON utilizada
-     * para o botão de cancelar.
-     * Método usado somente internamente.
-     * @return a mensagem em JSON do editor.
-     */
-    protected String getCancelButton() {
-        return "\"},{\"text\":\"" + cancelText +
-                "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/sdwa b ca\"}},{\"text\":\"";
-    }
-
-    /**
-     * Retorna a mensagem em JSON utilizada
-     * para o botão de limpar.
-     * Método usado somente internamente.
-     * @return a mensagem em JSON do editor.
-     */
-    protected String getCleanButon() {
-        return "\"},{\"text\":\"" + cleanText +
-                "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/sdwa b cl\"}},{\"text\":\"";
     }
 
     /**
@@ -501,6 +497,28 @@ public abstract class AbstractPaint {
      */
     public IDrawingRunnable getOnClose() {
         return this.onClose;
+    }
+
+    /**
+     * Define se o chat deve ou não
+     * ser pausado para o jogador
+     * que está com esse "editor" aberto.
+     * @param stop true para pausar o chat, false
+     *             para não pausar.
+     */
+    public AbstractPaint setStopChat(boolean stop) {
+        this.stopChat = stop;
+        return this;
+    }
+
+    /**
+     * Retorna se o editor deve parar
+     * ou não o chat quando estiver
+     * aberto.
+     * @return se deve ou não parar o chat.
+     */
+    public boolean isStopChat() {
+        return this.stopChat;
     }
 
 }
