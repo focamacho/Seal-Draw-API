@@ -87,3 +87,29 @@ Exemplo:
 Com um [Drawing](https://github.com/Seal-Island/Seal-Draw-API/blob/master/sealdrawapi-common/src/main/java/com/focamacho/sealdrawapi/api/Drawing.java) e um objeto da classe [AbstractPaint](https://github.com/Seal-Island/Seal-Draw-API/blob/master/sealdrawapi-common/src/main/java/com/focamacho/sealdrawapi/api/AbstractPaint.java), você já está pronto para criar seus desenhos.
 
 Confira a documentação disponível nessas duas classes para poder se aprofundar mais.
+
+### Como salvar os desenhos
+
+Você provavelmente vai querer salvar os desenhos que os seus jogadores fizerem. Para isso, você pode convertê-los em uma String, e quando for necessário carregar o desenho novamente a partir dessa String.
+
+Exemplo de como fazer isso quando o jogador clica no botão de confirmar:
+
+```java
+    //Criar uma tela de edição
+    AbstractPaint paint = api.createPaint(desenho);
+
+    //Definir a função do botão de confirmar
+    paint.setOnConfirm((player, paint) -> {
+            //Finaliza o editor quando confirmado
+            paint.closePaint(player);
+
+            //Converte o desenho em uma String
+            String desenho = paint.getDrawing().toString();
+    });
+```
+
+E para gerar um desenho a partir da String é só usar:
+
+```java
+    Drawing drawing = Drawing.fromString(desenho);
+```
