@@ -58,7 +58,7 @@ public class Drawing {
         Drawing dw = new Drawing(rows, columns);
         for(int row = 0; row < rows; row++) {
             for(int column = 0; column < columns; column++) {
-                dw.setColor(row, column, split[0].charAt(column));
+                dw.setColor(row, column, split[row].charAt(column));
             }
         }
 
