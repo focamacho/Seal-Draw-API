@@ -26,6 +26,7 @@ public class ChatButton {
     /**
      * Define o texto desse botão.
      * @param text o texto desejado.
+     * @return esse objeto.
      */
     public ChatButton setText(String text) {
         this.text = text;
@@ -44,6 +45,7 @@ public class ChatButton {
      * Define o texto exibido ao
      * passar o mouse nesse botão.
      * @param text o texto desejado.
+     * @return esse objeto.
      */
     public ChatButton setHoverText(String text) {
         this.hover = text;
@@ -64,6 +66,7 @@ public class ChatButton {
      * ao clicar no botão.
      * @param action a ação para ser efetuada.
      * @param value o valor para definir na ação.
+     * @return esse objeto.
      */
     public ChatButton setAction(ActionType action, String value) {
         this.action = new AbstractMap.SimpleEntry<>(action, value);

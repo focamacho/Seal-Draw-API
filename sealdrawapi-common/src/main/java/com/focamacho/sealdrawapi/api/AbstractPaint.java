@@ -125,6 +125,7 @@ public abstract class AbstractPaint {
      * Retorna a cor que o jogador
      * possui selecionada no
      * editor.
+     * @param player o jogador desejado.
      * @return a cor selecionada.
      */
     public char getSelectedColor(Object player) {
@@ -153,6 +154,7 @@ public abstract class AbstractPaint {
     /**
      * Limpa o desenho, deixando a tela
      * toda em branco.
+     * @return esse objeto.
      */
     public AbstractPaint clear() {
         for(int row = 0; row < this.drawing.getRows(); row++) {
@@ -170,6 +172,7 @@ public abstract class AbstractPaint {
      * caso você queira tentar centralizar
      * o seu desenho.
      * @param spaces a quantia de espaços.
+     * @return esse objeto.
      */
     public AbstractPaint setSpaces(int spaces) {
         this.spaces = spaces;
@@ -184,6 +187,7 @@ public abstract class AbstractPaint {
      * do desenho.
      * @param message a mensagem para ser exibida
      *                antes do desenho.
+     * @return esse objeto.
      */
     public AbstractPaint setBeforeMessage(String message) {
         this.beforeMessage = message.replace("&", "§").replace("\\n", "\n").replace("\n", "\\n");
@@ -200,6 +204,7 @@ public abstract class AbstractPaint {
      * limpar,
      * @param message a mensagem para ser exibida
      *                após o desenho.
+     * @return esse objeto.
      */
     public AbstractPaint setAfterMessage(String message) {
         this.afterMessage = message.replace("&", "§").replace("\\n", "\n").replace("\n", "\\n");
@@ -211,6 +216,7 @@ public abstract class AbstractPaint {
      * O padrão são todas as cores do Minecraft,
      * de '0' até '9' e de 'a' até 'f'.
      * @param colors as cores disponíveis.
+     * @return esse objeto.
      */
     public AbstractPaint setAvailableColors(char[] colors) {
         this.availableColors = colors;
@@ -223,6 +229,7 @@ public abstract class AbstractPaint {
      * @param text o texto desejado.
      * @param hover o texto desejado ao passar
      *              o mouse no botão.
+     * @return esse objeto.
      */
     public AbstractPaint setCancelText(String text, String hover) {
         this.cancelButton = ChatButton.create().setText(text.replace("&", "§").replace("\\n", "\n").replace("\n", "\\n"))
@@ -237,6 +244,7 @@ public abstract class AbstractPaint {
      * @param text o texto desejado.
      * @param hover o texto desejado ao passar
      *              o mouse no botão.
+     * @return esse objeto.
      */
     public AbstractPaint setCleanText(String text, String hover) {
         this.cleanButton = ChatButton.create().setText(text.replace("&", "§").replace("\\n", "\n").replace("\n", "\\n"))
@@ -251,6 +259,7 @@ public abstract class AbstractPaint {
      * @param text o texto desejado.
      * @param hover o texto desejado ao passar
      *              o mouse no botão.
+     * @return esse objeto.
      */
     public AbstractPaint setConfirmText(String text, String hover) {
         this.confirmButton = ChatButton.create().setText(text.replace("&", "§").replace("\\n", "\n").replace("\n", "\\n"))
@@ -265,6 +274,7 @@ public abstract class AbstractPaint {
      * @param text o texto desejado.
      * @param hover o texto desejado ao passar
      *              o mouse no botão.
+     * @return esse objeto.
      */
     public AbstractPaint setColorText(String text, String hover) {
         this.colorButton = ChatButton.create().setText(text.replace("&", "§").replace("\\n", "\n").replace("\n", "\\n"))
@@ -359,6 +369,7 @@ public abstract class AbstractPaint {
     /**
      * Retorna se o jogador inserido
      * está ou não usando esse editor.
+     * @param player o jogador desejado.
      * @return true se o jogador estiver com
      * esse editor aberto e false caso
      * não esteja.
@@ -373,6 +384,7 @@ public abstract class AbstractPaint {
      * do editor.
      * @param onCancel o IDrawingRunnable para
      *                 ser executado.
+     * @return esse objeto.
      */
     public AbstractPaint setOnCancel(IPaintRunnable onCancel) {
         this.onCancel = onCancel;
@@ -385,6 +397,7 @@ public abstract class AbstractPaint {
      * do editor.
      * @param onConfirm o IDrawingRunnable para
      *                 ser executado.
+     * @return esse objeto.
      */
     public AbstractPaint setOnConfirm(IPaintRunnable onConfirm) {
         this.onConfirm = onConfirm;
@@ -397,6 +410,7 @@ public abstract class AbstractPaint {
      * do editor.
      * @param onClean o IDrawingRunnable para
      *                 ser executado.
+     * @return esse objeto.
      */
     public AbstractPaint setOnClean(IPaintRunnable onClean) {
         this.onClean = onClean;
@@ -408,6 +422,7 @@ public abstract class AbstractPaint {
      * um jogador abre um "editor".
      * @param onOpen o IDrawingRunnable para
      *                 ser executado.
+     * @return esse objeto.
      */
     public AbstractPaint setOnOpen(IPaintRunnable onOpen) {
         this.onOpen = onOpen;
@@ -424,6 +439,7 @@ public abstract class AbstractPaint {
      * do desenho.
      * @param onUpdate o IDrawingRunnable para
      *                 ser executado.
+     * @return esse objeto.
      */
     public AbstractPaint setOnUpdate(IPaintRunnable onUpdate) {
         this.onUpdate = onUpdate;
@@ -436,6 +452,7 @@ public abstract class AbstractPaint {
      * usuário.
      * @param onClose o IDrawingRunnable para
      *                 ser executado.
+     * @return esse objeto.
      */
     public AbstractPaint setOnClose(IPaintRunnable onClose) {
         this.onClose = onClose;
@@ -505,7 +522,8 @@ public abstract class AbstractPaint {
      * que está com esse "editor" aberto.
      * @param stop true para pausar o chat, false
      *             para não pausar.
-     *
+     * @return esse objeto.
+     * 
      * # EM DESENVOLVIMENTO #
      */
     public AbstractPaint setStopChat(boolean stop) {

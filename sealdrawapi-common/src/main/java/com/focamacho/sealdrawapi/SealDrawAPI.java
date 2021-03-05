@@ -22,6 +22,8 @@ public class SealDrawAPI {
     /**
      * Cria um novo "editor" de imagem
      * com o desenho informado.
+     * @param drawing o desenho desejado.
+     * @return o novo "editor".
      */
     public AbstractPaint createPaint(Drawing drawing) {
         try {

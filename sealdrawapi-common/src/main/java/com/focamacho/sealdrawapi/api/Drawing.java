@@ -127,6 +127,7 @@ public class Drawing {
      * @param column a coluna em que o pixel
      *               se encontra.
      * @param color a cor desejada.
+     * @return esse "editor".
      */
     public Drawing setColor(int row, int column, char color) {
         this.drawing[row][column] = color;
@@ -140,6 +141,7 @@ public class Drawing {
      *            se encontra.
      * @param column a coluna em que o pixel
      *               se encontra.
+     * @return a cor do pixel.
      */
     public char getColor(int row, int column) {
         return this.drawing[row][column];
