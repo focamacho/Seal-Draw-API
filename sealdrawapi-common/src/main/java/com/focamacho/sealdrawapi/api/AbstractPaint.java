@@ -9,6 +9,7 @@ import java.util.*;
  * o "editor" de imagem
  * no chat.
  */
+@SuppressWarnings({"unused", "UnusedReturnValue"})
 public abstract class AbstractPaint {
 
     public static List<AbstractPaint> allPaints = new ArrayList<>();

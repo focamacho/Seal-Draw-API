@@ -3,6 +3,7 @@ package com.focamacho.sealdrawapi;
 import com.focamacho.sealdrawapi.command.SpongeDrawCommand;
 import org.spongepowered.api.Sponge;
 
+@SuppressWarnings("unused")
 public class SealDrawAPISponge {
 
     public static SealDrawAPI api;

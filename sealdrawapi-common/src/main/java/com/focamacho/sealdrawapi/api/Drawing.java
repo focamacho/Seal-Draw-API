@@ -4,6 +4,7 @@ package com.focamacho.sealdrawapi.api;
  * Classe que representa um
  * desenho.
  */
+@SuppressWarnings({"unused", "UnusedReturnValue"})
 public class Drawing {
 
     private final int rows;

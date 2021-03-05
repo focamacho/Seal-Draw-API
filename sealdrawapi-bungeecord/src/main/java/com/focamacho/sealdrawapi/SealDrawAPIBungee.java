@@ -4,6 +4,7 @@ import com.focamacho.sealdrawapi.command.BungeeDrawCommand;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
 
+@SuppressWarnings("unused")
 public final class SealDrawAPIBungee {
 
     public static SealDrawAPI api;

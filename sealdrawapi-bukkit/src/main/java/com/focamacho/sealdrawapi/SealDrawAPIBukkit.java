@@ -7,6 +7,7 @@ import org.apache.logging.log4j.core.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
+@SuppressWarnings("unused")
 public final class SealDrawAPIBukkit {
 
     public static SealDrawAPI api;

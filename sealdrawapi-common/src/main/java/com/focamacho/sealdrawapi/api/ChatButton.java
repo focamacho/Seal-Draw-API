@@ -112,11 +112,12 @@ public class ChatButton {
         return stringBuilder.toString();
     }
 
+    @SuppressWarnings("unused")
     enum ActionType {
 
         OPEN_URL,
         RUN_COMMAND,
-        SUGGEST_COMMAND;
+        SUGGEST_COMMAND
 
     }
 

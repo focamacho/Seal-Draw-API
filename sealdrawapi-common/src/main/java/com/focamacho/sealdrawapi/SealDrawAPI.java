@@ -4,6 +4,7 @@ import com.focamacho.sealdrawapi.api.AbstractPaint;
 import com.focamacho.sealdrawapi.api.Drawing;
 import com.focamacho.sealdrawapi.impl.Implementations;
 
+@SuppressWarnings("unused")
 public class SealDrawAPI {
 
     private final Object plugin;
