@@ -505,6 +505,8 @@ public abstract class AbstractPaint {
      * que está com esse "editor" aberto.
      * @param stop true para pausar o chat, false
      *             para não pausar.
+     *
+     * # EM DESENVOLVIMENTO #
      */
     public AbstractPaint setStopChat(boolean stop) {
         this.stopChat = stop;
@@ -516,6 +518,8 @@ public abstract class AbstractPaint {
      * ou não o chat quando estiver
      * aberto.
      * @return se deve ou não parar o chat.
+     *
+     * # EM DESENVOLVIMENTO #
      */
     public boolean isStopChat() {
         return this.stopChat;
