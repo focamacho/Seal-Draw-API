@@ -1,4 +1,4 @@
-#ATENÇÃO
+# ATENÇÃO
 ### Essa API ainda está em desenvolvimento. Não foi terminada, e não possui nenhuma release ainda.
 ### Caso queira usar terá que fazê-lo compilando você mesmo o código com `./gradlew build`.
 ### Tenha ciência que a parte principal faltando é a da possibilidade de pausar o chat enquanto alguém edita um desenho. No estado atual da API, o chat não pausa e o desenho acaba indo para cima.
