@@ -5,11 +5,13 @@ repositories {
         name = 'sonatype'
         url = 'https://oss.sonatype.org/content/groups/public/'
     }
+    maven { url = 'https://mvn.exceptionflug.de/repository/exceptionflug-public/' }
 }
 
 dependencies {
     compile project(':sealdrawapi-common')
     compileOnly 'net.md-5:bungeecord-api:1.12-SNAPSHOT'
+    compileOnly 'de.exceptionflug:protocolize-api:1.6.7-SNAPSHOT'
 }
 
 processResources {

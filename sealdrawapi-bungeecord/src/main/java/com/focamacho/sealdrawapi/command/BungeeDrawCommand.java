@@ -70,4 +70,12 @@ public class BungeeDrawCommand implements Listener {
         if(paint != null) paint.closePaint(event.getPlayer());
     }
 
+    @EventHandler
+    public void onChat(ChatEvent event) {
+        AbstractPaint paint = SealDrawAPIBungee.api.getPaint(event.getSender());
+        if(paint != null && paint.isStopChat()) {
+            event.setCancelled(true);
+        }
+    }
+
 }
