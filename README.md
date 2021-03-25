@@ -1,7 +1,20 @@
-# ATENÇÃO
-### Essa API ainda está em desenvolvimento. Não foi terminada, e não possui nenhuma release ainda.
-### Caso queira usar terá que fazê-lo compilando você mesmo o código com `./gradlew build`.
-### Tenha ciência que a parte principal faltando é a da possibilidade de pausar o chat enquanto alguém edita um desenho. No estado atual da API, o chat não pausa e o desenho acaba indo para cima.
+# Requisitos
+Alguns requisitos são necessários para que seja possível utilizar a Seal Draw API.
+
+Esses requisitos se provaram necessários para evitar que o jogador que está a editar uma pixel art receba mensagens de chat durante o processo, o que faria com que o seu desenho se movesse para cima, atrapalhando a edição.
+
+Aqui está a lista do que é necessário para cada ‘software’:
+### Bukkit
+ - ProtocolLib [[download](https://www.spigotmc.org/resources/protocollib.1997/)]
+   - É necessário também adicionar o ProtocolLib como dependência no plugin que você está criando. O motivo disso é para fazê-lo carregar antes do seu plugin.
+   - Para isso é só adicionar a linha ``depend: [ProtocolLib]`` no seu `plugin.yml`.
+### BungeeCord
+ - A versão para BungeeCord ainda está em desenvolvimento. O chat não é pausado quando um desenho está sendo editado.
+### Sponge
+ - A versão para Sponge ainda está em desenvolvimento. O chat não é pausado quando um desenho está sendo editado.
+
+# Aviso
+Ainda não existe nenhuma release da Seal Draw API disponível (mesmo que esse README diga que sim algumas linhas para baixo). Caso queira testá-la você deverá fazê-lo compilando você mesmo o source-code com ``./gradlew build``.
 
 # Seal Draw API
 A Seal Draw é uma API para Bukkit, BungeeCord e Sponge que permite a criação de Pixel Arts por meio do chat do minecraft.

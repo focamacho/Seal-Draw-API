@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -67,6 +68,14 @@ public class BukkitDrawCommand implements Listener {
     public void onQuit(PlayerQuitEvent event) {
         AbstractPaint paint = SealDrawAPIBukkit.api.getPaint(event.getPlayer());
         if(paint != null) paint.closePaint(event.getPlayer());
+    }
+
+    @EventHandler
+    public void onChat(AsyncPlayerChatEvent event) {
+        AbstractPaint paint = SealDrawAPIBukkit.api.getPaint(event.getPlayer());
+        if(paint != null && paint.isStopChat()) {
+            event.setCancelled(true);
+        }
     }
 
 }

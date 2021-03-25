@@ -67,8 +67,10 @@ public abstract class AbstractPaint {
      * @param player o jogador.
      */
     public void closePaint(Object player) {
-        if(players.containsKey(player)) onClose.run(player, this);
-        players.remove(player);
+        if(players.containsKey(player)) {
+            players.remove(player);
+            onClose.run(player, this);
+        }
         if(players.isEmpty()) allPaints.remove(this);
     }
 

@@ -1,11 +1,17 @@
 buildscript {
     repositories {
         jcenter()
+        maven { url = 'https://files.minecraftforge.net/maven' }
     }
 
     dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
         classpath 'com.github.jengelman.gradle.plugins:shadow:4.0.4'
     }
+}
+
+plugins {
+    id 'java'
 }
 
 group = 'com.focamacho'
@@ -27,5 +33,15 @@ subprojects {
 
     tasks.withType(JavaCompile) {
         options.encoding = "UTF-8"
+    }
+}
+
+subprojects.each { subproject -> evaluationDependsOn(subproject.path)}
+
+task allJar(type: Jar, dependsOn: subprojects.build) {
+    subprojects.each { subproject ->
+        from subproject.configurations.archives.allArtifacts.files.collect {
+            zipTree(it)
+        }
     }
 }
