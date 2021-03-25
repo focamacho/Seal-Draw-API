@@ -9,7 +9,9 @@ Aqui está a lista do que é necessário para cada ‘software’:
    - É necessário também adicionar o ProtocolLib como dependência no plugin que você está criando. O motivo disso é para fazê-lo carregar antes do seu plugin.
    - Para isso é só adicionar a linha ``depend: [ProtocolLib]`` no seu `plugin.yml`.
 ### BungeeCord
- - A versão para BungeeCord ainda está em desenvolvimento. O chat não é pausado quando um desenho está sendo editado.
+ - Protocolize [[download](https://www.spigotmc.org/resources/protocolize-protocollib-for-bungeecord-waterfall-aegis.63778/)]
+   - É necessário também adicionar o Protocolize como dependência no plugin que você está criando. O motivo disso é para fazê-lo carregar antes do seu plugin.
+   - Para isso é só adicionar a linha ``depends: ["protocolize-plugin"]`` no seu `bungee.yml`.
 ### Sponge
  - A versão para Sponge ainda está em desenvolvimento. O chat não é pausado quando um desenho está sendo editado.
 
