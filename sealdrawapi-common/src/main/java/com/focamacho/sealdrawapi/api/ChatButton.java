@@ -17,6 +17,7 @@ public class ChatButton {
     /**
      * Método principal para a criação
      * de um objeto dessa classe.
+     *
      * @return um novo ChatButton.
      */
     protected static ChatButton create() {
@@ -25,6 +26,7 @@ public class ChatButton {
 
     /**
      * Define o texto desse botão.
+     *
      * @param text o texto desejado.
      * @return esse objeto.
      */
@@ -35,6 +37,7 @@ public class ChatButton {
 
     /**
      * Retorna o texto desse botão.
+     *
      * @return o texto do botão.
      */
     public String getText() {
@@ -44,6 +47,7 @@ public class ChatButton {
     /**
      * Define o texto exibido ao
      * passar o mouse nesse botão.
+     *
      * @param text o texto desejado.
      * @return esse objeto.
      */
@@ -55,6 +59,7 @@ public class ChatButton {
     /**
      * Retorna o texto ao passar o mouse
      * nesse botão.
+     *
      * @return o texto ao passar o mouse no botão.
      */
     public String getHoverText() {
@@ -64,6 +69,7 @@ public class ChatButton {
     /**
      * Define uma ação para ser efetuada
      * ao clicar no botão.
+     *
      * @param action a ação para ser efetuada.
      * @param value o valor para definir na ação.
      * @return esse objeto.
@@ -76,6 +82,7 @@ public class ChatButton {
     /**
      * Retorna a ação ao para ser efetuada
      * ao clicar no botão.
+     *
      * @return a ação para ser efetuada.
      */
     public AbstractMap.SimpleEntry<ActionType, String> getAction() {
@@ -85,6 +92,7 @@ public class ChatButton {
     /**
      * Retorna o JSON gerado a partir
      * desse botão.
+     *
      * @return o JSON para o botão.
      */
     public String toJson() {

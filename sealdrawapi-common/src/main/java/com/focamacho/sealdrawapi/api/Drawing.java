@@ -14,6 +14,7 @@ public class Drawing {
     /**
      * Construtor para criar um novo
      * desenho em branco.
+     *
      * @param rows número de linhas
      *             do desenho.
      * @param columns número de colunas do
@@ -29,6 +30,7 @@ public class Drawing {
      * Construtor para criar um novo
      * desenho em branco com uma cor
      * de fundo.
+     *
      * @param rows número de linhas
      *             do desenho.
      * @param columns número de colunas do
@@ -46,6 +48,7 @@ public class Drawing {
      * Feito para ser usado em conjunto com
      * o método Drawing#toString(), permitindo salvar
      * os desenhos em uma String.
+     *
      * @param drawing o desenho em string, gerado
      *                pelo método toString.
      * @return o desenho.
@@ -70,6 +73,7 @@ public class Drawing {
      * Converte o desenho em uma String,
      * permitindo que ele seja salvo em
      * um banco de dados, por exemplo.
+     *
      * @return o desenho em string.
      */
     public String toString() {
@@ -86,6 +90,7 @@ public class Drawing {
     /**
      * Retorna o número de linhas
      * que esse desenho possui.
+     *
      * @return número de linhas do desenho.
      */
     public int getRows() {
@@ -95,6 +100,7 @@ public class Drawing {
     /**
      * Retorna o número de colunas
      * que esse desenho possui.
+     *
      * @return número de colunas do desenho.
      */
     public int getColumns() {
@@ -103,6 +109,7 @@ public class Drawing {
 
     /**
      * Cria um desenho em branco.
+     *
      * @param rows número de linhas
      *             do desenho.
      * @param columns número de colunas
@@ -123,6 +130,7 @@ public class Drawing {
     /**
      * Define a cor de um dos pixels
      * do desenho.
+     *
      * @param row a linha em que o pixel
      *            se encontra.
      * @param column a coluna em que o pixel
@@ -138,6 +146,7 @@ public class Drawing {
     /**
      * Retorna a cor de um dos pixels
      * do desenho.
+     *
      * @param row a linha em que o pixel
      *            se encontra.
      * @param column a coluna em que o pixel
@@ -156,6 +165,7 @@ public class Drawing {
      * Caso você queira uma String para salvar
      * o desenho no banco de dados, use o método
      * Drawing#toString().
+     *
      * @return o desenho.
      */
     public String getDrawing() {
@@ -172,6 +182,7 @@ public class Drawing {
     /**
      * Retorna uma nova cópia
      * desse desenho.
+     *
      * @return o novo desenho.
      */
     public Drawing copy() {
