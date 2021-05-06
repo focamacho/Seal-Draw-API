@@ -1,23 +1,22 @@
-package com.focamacho.sealdrawapi.command;
+package com.focamacho.sealdrawapi.bungee.command;
 
-import com.focamacho.sealdrawapi.SealDrawAPIBukkit;
+import com.focamacho.sealdrawapi.bungee.SealDrawAPIBungee;
 import com.focamacho.sealdrawapi.api.AbstractPaint;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import net.md_5.bungee.api.CommandSender;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.md_5.bungee.api.event.ChatEvent;
+import net.md_5.bungee.api.event.PlayerDisconnectEvent;
+import net.md_5.bungee.api.plugin.Listener;
+import net.md_5.bungee.event.EventHandler;
+import net.md_5.bungee.event.EventPriority;
 
-public class BukkitDrawCommand implements Listener {
+public class DrawCommand implements Listener {
 
     public void execute(CommandSender sender, String[] args) {
-        if(!(sender instanceof Player)) return;
+        if(!(sender instanceof ProxiedPlayer)) return;
 
-        Player player = (Player) sender;
-        AbstractPaint paint = SealDrawAPIBukkit.api.getPaint(player);
+        ProxiedPlayer player = (ProxiedPlayer) sender;
+        AbstractPaint paint = SealDrawAPIBungee.api.getPaint(player);
 
         if(paint != null) {
             if(args.length == 3) {
@@ -57,22 +56,23 @@ public class BukkitDrawCommand implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onCommand(PlayerCommandPreprocessEvent event) {
+    public void onCommand(ChatEvent event) {
         if(event.getMessage().startsWith("/sdwa")) {
-            execute(event.getPlayer(), event.getMessage().replace("/sdwa ", "").split(" "));
+            if(!(event.getSender() instanceof CommandSender)) return;
+            execute((CommandSender) event.getSender(), event.getMessage().replace("/sdwa ", "").split(" "));
             event.setCancelled(true);
         }
     }
 
     @EventHandler
-    public void onQuit(PlayerQuitEvent event) {
-        AbstractPaint paint = SealDrawAPIBukkit.api.getPaint(event.getPlayer());
+    public void onQuit(PlayerDisconnectEvent event) {
+        AbstractPaint paint = SealDrawAPIBungee.api.getPaint(event.getPlayer());
         if(paint != null) paint.closePaint(event.getPlayer());
     }
 
     @EventHandler
-    public void onChat(AsyncPlayerChatEvent event) {
-        AbstractPaint paint = SealDrawAPIBukkit.api.getPaint(event.getPlayer());
+    public void onChat(ChatEvent event) {
+        AbstractPaint paint = SealDrawAPIBungee.api.getPaint(event.getSender());
         if(paint != null && paint.isStopChat()) {
             event.setCancelled(true);
         }

@@ -1,21 +1,23 @@
-package com.focamacho.sealdrawapi.command;
+package com.focamacho.sealdrawapi.bukkit.command;
 
-import com.focamacho.sealdrawapi.SealDrawAPISponge;
+import com.focamacho.sealdrawapi.bukkit.SealDrawAPIBukkit;
 import com.focamacho.sealdrawapi.api.AbstractPaint;
-import org.spongepowered.api.command.CommandSource;
-import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.event.Listener;
-import org.spongepowered.api.event.Order;
-import org.spongepowered.api.event.command.SendCommandEvent;
-import org.spongepowered.api.event.network.ClientConnectionEvent;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
-public class SpongeDrawCommand {
+public class DrawCommand implements Listener {
 
-    public void execute(CommandSource sender, String[] args) {
+    public void execute(CommandSender sender, String[] args) {
         if(!(sender instanceof Player)) return;
 
         Player player = (Player) sender;
-        AbstractPaint paint = SealDrawAPISponge.api.getPaint(player);
+        AbstractPaint paint = SealDrawAPIBukkit.api.getPaint(player);
 
         if(paint != null) {
             if(args.length == 3) {
@@ -54,19 +56,26 @@ public class SpongeDrawCommand {
 
     }
 
-    @Listener(order = Order.PRE)
-    public void onCommand(SendCommandEvent event) {
-        if(event.getCommand().startsWith("sdwa")) {
-            if(!(event.getSource() instanceof CommandSource)) return;
-            execute((CommandSource) event.getSource(), event.getArguments().split(" "));
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onCommand(PlayerCommandPreprocessEvent event) {
+        if(event.getMessage().startsWith("/sdwa")) {
+            execute(event.getPlayer(), event.getMessage().replace("/sdwa ", "").split(" "));
             event.setCancelled(true);
         }
     }
 
-    @Listener
-    public void onQuit(ClientConnectionEvent.Disconnect event) {
-        AbstractPaint paint = SealDrawAPISponge.api.getPaint(event.getTargetEntity());
-        if(paint != null) paint.closePaint(event.getTargetEntity());
+    @EventHandler
+    public void onQuit(PlayerQuitEvent event) {
+        AbstractPaint paint = SealDrawAPIBukkit.api.getPaint(event.getPlayer());
+        if(paint != null) paint.closePaint(event.getPlayer());
+    }
+
+    @EventHandler
+    public void onChat(AsyncPlayerChatEvent event) {
+        AbstractPaint paint = SealDrawAPIBukkit.api.getPaint(event.getPlayer());
+        if(paint != null && paint.isStopChat()) {
+            event.setCancelled(true);
+        }
     }
 
 }

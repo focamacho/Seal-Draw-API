@@ -1,6 +1,6 @@
-package com.focamacho.sealdrawapi.packet;
+package com.focamacho.sealdrawapi.bungee.packet;
 
-import com.focamacho.sealdrawapi.SealDrawAPIBungee;
+import com.focamacho.sealdrawapi.bungee.SealDrawAPIBungee;
 import com.focamacho.sealdrawapi.api.AbstractPaint;
 import de.exceptionflug.protocolize.api.event.PacketReceiveEvent;
 import de.exceptionflug.protocolize.api.event.PacketSendEvent;

@@ -1,11 +1,13 @@
-package com.focamacho.sealdrawapi.api;
+package com.focamacho.sealdrawapi.bukkit.api;
 
+import com.focamacho.sealdrawapi.api.AbstractPaint;
+import com.focamacho.sealdrawapi.api.Drawing;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-public class BukkitPaint extends AbstractPaint {
+public class Paint extends AbstractPaint {
 
-    public BukkitPaint(Drawing drawing) {
+    public Paint(Drawing drawing) {
         super(drawing);
 
         setOnCancel((player, dw) -> {

@@ -3,17 +3,32 @@ plugins {
 }
 
 apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'net.minecraftforge.gradle'
+
+repositories {
+    maven { url "https://repo.ichorpowered.com/repository/maven-public" }
+}
+
+minecraft {
+    mappings channel: 'stable', version: '39-1.12'
+}
 
 dependencies {
+    //MCP Mappings
+    minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2854'
+
     compile project(':sealdrawapi-common')
     compileOnly 'org.spongepowered:spongeapi:7.3.0'
     annotationProcessor 'org.spongepowered:spongeapi:7.3.0'
+    compileOnly "com.ichorpowered:protocolcontrol:0.0.2"
 }
 
-shadowJar {
-    dependencies {
-        include(dependency(':sealdrawapi-common'))
+reobf {
+    shadowJar{
+        dependencies {
+            include(dependency(':seallibrary-common'))
+        }
     }
 }
 
-tasks.build.dependsOn tasks.shadowJar
+tasks.build.dependsOn reobfShadowJar

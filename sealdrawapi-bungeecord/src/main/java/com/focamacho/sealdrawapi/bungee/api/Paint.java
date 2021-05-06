@@ -1,12 +1,14 @@
-package com.focamacho.sealdrawapi.api;
+package com.focamacho.sealdrawapi.bungee.api;
 
 
+import com.focamacho.sealdrawapi.api.AbstractPaint;
+import com.focamacho.sealdrawapi.api.Drawing;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.chat.ComponentSerializer;
 
-public class BungeePaint extends AbstractPaint {
+public class Paint extends AbstractPaint {
 
-    public BungeePaint(Drawing drawing) {
+    public Paint(Drawing drawing) {
         super(drawing);
 
         setOnCancel((player, dw) -> {

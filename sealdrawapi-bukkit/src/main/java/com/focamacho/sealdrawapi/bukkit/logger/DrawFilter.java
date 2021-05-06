@@ -1,4 +1,4 @@
-package com.focamacho.sealdrawapi.logger;
+package com.focamacho.sealdrawapi.bukkit.logger;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Marker;
@@ -7,7 +7,7 @@ import org.apache.logging.log4j.core.Logger;
 import org.apache.logging.log4j.core.filter.AbstractFilter;
 import org.apache.logging.log4j.message.Message;
 
-public class BukkitDrawFilter extends AbstractFilter {
+public class DrawFilter extends AbstractFilter {
 
     @Override
     public Result filter(LogEvent event) {

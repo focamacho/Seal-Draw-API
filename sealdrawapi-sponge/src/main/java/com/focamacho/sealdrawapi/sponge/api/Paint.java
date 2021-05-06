@@ -1,12 +1,14 @@
-package com.focamacho.sealdrawapi.api;
+package com.focamacho.sealdrawapi.sponge.api;
 
 
+import com.focamacho.sealdrawapi.api.AbstractPaint;
+import com.focamacho.sealdrawapi.api.Drawing;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 
-public class SpongePaint extends AbstractPaint {
+public class Paint extends AbstractPaint {
 
-    public SpongePaint(Drawing drawing) {
+    public Paint(Drawing drawing) {
         super(drawing);
 
         setOnCancel((player, dw) -> {

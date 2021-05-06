@@ -1,22 +1,22 @@
-package com.focamacho.sealdrawapi.command;
+package com.focamacho.sealdrawapi.sponge.command;
 
-import com.focamacho.sealdrawapi.SealDrawAPIBungee;
+import com.focamacho.sealdrawapi.sponge.SealDrawAPISponge;
 import com.focamacho.sealdrawapi.api.AbstractPaint;
-import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.event.ChatEvent;
-import net.md_5.bungee.api.event.PlayerDisconnectEvent;
-import net.md_5.bungee.api.plugin.Listener;
-import net.md_5.bungee.event.EventHandler;
-import net.md_5.bungee.event.EventPriority;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.Order;
+import org.spongepowered.api.event.command.SendCommandEvent;
+import org.spongepowered.api.event.message.MessageChannelEvent;
+import org.spongepowered.api.event.network.ClientConnectionEvent;
 
-public class BungeeDrawCommand implements Listener {
+public class DrawCommand {
 
-    public void execute(CommandSender sender, String[] args) {
-        if(!(sender instanceof ProxiedPlayer)) return;
+    public void execute(CommandSource sender, String[] args) {
+        if(!(sender instanceof Player)) return;
 
-        ProxiedPlayer player = (ProxiedPlayer) sender;
-        AbstractPaint paint = SealDrawAPIBungee.api.getPaint(player);
+        Player player = (Player) sender;
+        AbstractPaint paint = SealDrawAPISponge.api.getPaint(player);
 
         if(paint != null) {
             if(args.length == 3) {
@@ -55,26 +55,28 @@ public class BungeeDrawCommand implements Listener {
 
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onCommand(ChatEvent event) {
-        if(event.getMessage().startsWith("/sdwa")) {
-            if(!(event.getSender() instanceof CommandSender)) return;
-            execute((CommandSender) event.getSender(), event.getMessage().replace("/sdwa ", "").split(" "));
+    @Listener(order = Order.PRE)
+    public void onCommand(SendCommandEvent event) {
+        if(event.getCommand().startsWith("sdwa")) {
+            if(!(event.getSource() instanceof CommandSource)) return;
+            execute((CommandSource) event.getSource(), event.getArguments().split(" "));
             event.setCancelled(true);
         }
     }
 
-    @EventHandler
-    public void onQuit(PlayerDisconnectEvent event) {
-        AbstractPaint paint = SealDrawAPIBungee.api.getPaint(event.getPlayer());
-        if(paint != null) paint.closePaint(event.getPlayer());
+    @Listener
+    public void onQuit(ClientConnectionEvent.Disconnect event) {
+        AbstractPaint paint = SealDrawAPISponge.api.getPaint(event.getTargetEntity());
+        if(paint != null) paint.closePaint(event.getTargetEntity());
     }
 
-    @EventHandler
-    public void onChat(ChatEvent event) {
-        AbstractPaint paint = SealDrawAPIBungee.api.getPaint(event.getSender());
-        if(paint != null && paint.isStopChat()) {
-            event.setCancelled(true);
+    @Listener
+    public void onChat(MessageChannelEvent.Chat event) {
+        if(event.getSource() instanceof Player) {
+            AbstractPaint paint = SealDrawAPISponge.api.getPaint(event.getSource());
+            if (paint != null && paint.isStopChat()) {
+                event.setCancelled(true);
+            }
         }
     }
 

@@ -60,13 +60,13 @@ Obs: Troque a palavra `VERSAO` pela versão da API desejada. Verifique a última
 
 ## Usando a API
 
-Para usar a Seal Draw você precisa primeiro criar uma instância da classe `com.focamacho.sealdrawapi.SealDrawAPI`.
+Para usar a Seal Draw você precisa primeiro criar uma instância da classe `SealDrawAPI`.
 
 Para criar a instância da API você precisará fornecer a instância do seu plugin no construtor da classe. Não crie mais de uma instância da API! Crie ela somente uma vez e use essa instância o tempo todo.
 
 Exemplo:
 ```java
-import com.focamacho.sealdrawapi.SealDrawAPI;
+import SealDrawAPI;
 
 public class ExamplePlugin extends JavaPlugin {
 
@@ -84,7 +84,7 @@ public class ExamplePlugin extends JavaPlugin {
 Com a instância da API você terá acesso a criação de novas "telas de desenhos", as quais eu me referencio como "editor" nos docs disponíveis nas classes do projeto.
 Para criar uma tela de desenhos é só usar o método `SealDrawAPI#createPaint`, passando junto dela o desenho que você deseja editar.
 
-Para criar um desenho é só criar um objeto da classe `com.focamacho.sealdrawapi.api.Drawing`, passando as informações de tamanho da linha, e tamanho da coluna do desenho.
+Para criar um desenho é só criar um objeto da classe `Drawing`, passando as informações de tamanho da linha, e tamanho da coluna do desenho.
 
 **ATENÇÃO! NÃO ABUSE DO TAMANHO.**
 
