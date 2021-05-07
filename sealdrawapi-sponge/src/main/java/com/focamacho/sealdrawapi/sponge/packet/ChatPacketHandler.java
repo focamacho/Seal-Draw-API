@@ -12,6 +12,8 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import org.spongepowered.api.entity.living.player.Player;
 
+//Bloqueia o recebimento de mensagens caso o jogador
+//possua um "editor" aberto.
 public class ChatPacketHandler extends ChannelDuplexHandler {
 
     private final Player player;

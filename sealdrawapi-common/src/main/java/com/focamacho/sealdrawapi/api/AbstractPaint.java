@@ -1,5 +1,6 @@
 package com.focamacho.sealdrawapi.api;
 
+import com.focamacho.sealdrawapi.api.lib.ChatButton;
 import com.focamacho.sealdrawapi.api.lib.IPaintRunnable;
 
 import java.util.*;

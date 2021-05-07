@@ -1,4 +1,4 @@
-package com.focamacho.sealdrawapi.api;
+package com.focamacho.sealdrawapi.api.lib;
 
 import java.util.AbstractMap;
 
