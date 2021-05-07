@@ -1,7 +1,7 @@
 package com.focamacho.sealdrawapi.bungee.packet;
 
-import com.focamacho.sealdrawapi.bungee.SealDrawAPIBungee;
 import com.focamacho.sealdrawapi.api.AbstractPaint;
+import com.focamacho.sealdrawapi.bungee.SealDrawAPIBungee;
 import de.exceptionflug.protocolize.api.event.PacketReceiveEvent;
 import de.exceptionflug.protocolize.api.event.PacketSendEvent;
 import de.exceptionflug.protocolize.api.handler.PacketAdapter;

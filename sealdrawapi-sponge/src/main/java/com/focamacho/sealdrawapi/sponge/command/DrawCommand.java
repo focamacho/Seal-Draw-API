@@ -1,7 +1,7 @@
 package com.focamacho.sealdrawapi.sponge.command;
 
-import com.focamacho.sealdrawapi.sponge.SealDrawAPISponge;
 import com.focamacho.sealdrawapi.api.AbstractPaint;
+import com.focamacho.sealdrawapi.sponge.SealDrawAPISponge;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;

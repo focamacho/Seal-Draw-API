@@ -1,7 +1,7 @@
 package com.focamacho.sealdrawapi.bungee.command;
 
-import com.focamacho.sealdrawapi.bungee.SealDrawAPIBungee;
 import com.focamacho.sealdrawapi.api.AbstractPaint;
+import com.focamacho.sealdrawapi.bungee.SealDrawAPIBungee;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ChatEvent;

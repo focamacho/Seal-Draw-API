@@ -20,7 +20,7 @@ public class ChatButton {
      *
      * @return um novo ChatButton.
      */
-    protected static ChatButton create() {
+    public static ChatButton create() {
         return new ChatButton();
     }
 
@@ -121,7 +121,7 @@ public class ChatButton {
     }
 
     @SuppressWarnings("unused")
-    enum ActionType {
+    public enum ActionType {
 
         OPEN_URL,
         RUN_COMMAND,
