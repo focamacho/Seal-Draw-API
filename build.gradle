@@ -45,3 +45,5 @@ task allJar(type: Jar, dependsOn: subprojects.build) {
         }
     }
 }
+
+tasks.build.finalizedBy(allJar)
