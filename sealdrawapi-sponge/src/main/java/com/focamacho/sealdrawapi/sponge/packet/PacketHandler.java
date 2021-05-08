@@ -40,7 +40,8 @@ public class PacketHandler {
 
     @SubscribeEvent
     public void onLeave(PlayerEvent.PlayerLoggedOutEvent event) {
-        if(handlers.containsKey((Player) event.player)) {
+        ChatPacketHandler handler = handlers.remove((Player) event.player);
+        if(handler != null) {
             Channel channel = ((EntityPlayerMP) event.player).connection.netManager.channel();
             channel.eventLoop().submit(() -> channel.pipeline().remove(event.player.getName()));
         }
