@@ -18,17 +18,17 @@ public class Implementations {
         //Bukkit, Bungee ou Sponge
         try {
             Class.forName("org.bukkit.Bukkit");
-            toAssign = Class.forName("com.focamacho.sealdrawapi.bukkit.api.Paint").getDeclaredConstructor(Drawing.class);
+            toAssign = Class.forName("com.focamacho.sealdrawapi.bukkit.api.Paint").getDeclaredConstructor(SealDrawAPI.class, Drawing.class);
             Class.forName("com.focamacho.sealdrawapi.bukkit.SealDrawAPIBukkit").getMethod("onEnable", SealDrawAPI.class).invoke(null, instance);
         } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException ignore) {
             try {
                 Class.forName("net.md_5.bungee.api.ProxyServer");
-                toAssign = Class.forName("com.focamacho.sealdrawapi.bungee.api.Paint").getDeclaredConstructor(Drawing.class);
+                toAssign = Class.forName("com.focamacho.sealdrawapi.bungee.api.Paint").getDeclaredConstructor(SealDrawAPI.class, Drawing.class);
                 Class.forName("com.focamacho.sealdrawapi.bungee.SealDrawAPIBungee").getMethod("onEnable", SealDrawAPI.class).invoke(null, instance);
             } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException ignored) {
                 try {
                     Class.forName("org.spongepowered.api.Sponge");
-                    toAssign = Class.forName("com.focamacho.sealdrawapi.sponge.api.Paint").getDeclaredConstructor(Drawing.class);
+                    toAssign = Class.forName("com.focamacho.sealdrawapi.sponge.api.Paint").getDeclaredConstructor(SealDrawAPI.class, Drawing.class);
                     Class.forName("com.focamacho.sealdrawapi.sponge.SealDrawAPISponge").getMethod("onEnable", SealDrawAPI.class).invoke(null, instance);
                 } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException ignored1) {}
             }
