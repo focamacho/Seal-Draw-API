@@ -5,18 +5,16 @@ Esses requisitos se provaram necessários para evitar que o jogador que está a 
 
 Aqui está a lista do que é necessário para cada ‘software’:
 ### Bukkit
- - ProtocolLib [[download](https://www.spigotmc.org/resources/protocollib.1997/)]
-   - É necessário também adicionar o ProtocolLib como dependência no plugin que você está criando. O motivo disso é para fazê-lo carregar antes do seu plugin.
-   - Para isso é só adicionar a linha ``depend: [ProtocolLib]`` no seu `plugin.yml`.
+ - Nenhuma dependência adicional é necessária.
 ### BungeeCord
  - Protocolize [[download](https://www.spigotmc.org/resources/protocolize-protocollib-for-bungeecord-waterfall-aegis.63778/)]
    - É necessário também adicionar o Protocolize como dependência no plugin que você está criando. O motivo disso é para fazê-lo carregar antes do seu plugin.
    - Para isso é só adicionar a linha ``depends: ["protocolize-plugin"]`` no seu `bungee.yml`.
 ### Sponge
- - A versão para Sponge ainda está em desenvolvimento. O chat não é pausado quando um desenho está sendo editado.
+ - Nenhuma dependência adicional é necessária.
 
 # Aviso
-Ainda não existe nenhuma release da Seal Draw API disponível (mesmo que esse README diga que sim algumas linhas para baixo). Caso queira testá-la você deverá fazê-lo compilando você mesmo o source-code com ``./gradlew build``.
+Ainda não existe nenhuma release da Seal Draw API disponível (mesmo que esse README diga que sim algumas linhas para baixo). Caso queira testá-la você deverá fazê-lo compilando você mesmo o source-code com ``./gradlew clean build``.
 
 # Seal Draw API
 A Seal Draw é uma API para Bukkit, BungeeCord e Sponge que permite a criação de Pixel Arts por meio do chat do minecraft.
@@ -133,3 +131,8 @@ E para gerar um desenho a partir da String é só usar:
 ```java
     Drawing drawing = Drawing.fromString(desenho);
 ```
+
+### TO-DO
+Itens planejados para a API:
+- [ ] Remover dependência do Protocolize para o BungeeCord.
+- [ ] Corrigir problema de kick por spam no Spigot sem necessidade de configuração por parte do usuário.
