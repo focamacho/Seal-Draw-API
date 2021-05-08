@@ -14,12 +14,12 @@ public class Paint extends AbstractPaint {
 
         setOnCancel((player, dw) -> {
             Player p = (Player) player;
-            Sponge.getCommandManager().process(Sponge.getServer().getConsole(), "tellraw " + p.getName() + " \"\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n§cAlgo foi cancelado... Acho que você deveria programar o que\n§cacontece quando alguém cancela o desenho.\"");
+            Sponge.getCommandManager().process(Sponge.getServer().getConsole(), "tellraw " + p.getName() + " \"\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n§cAlgo foi cancelado... Acho que você deveria programar o que\\n§cacontece quando alguém cancela o desenho.\"");
             closePaint(p);
         });
         setOnConfirm((player, dw) -> {
             Player p = (Player) player;
-            Sponge.getCommandManager().process(Sponge.getServer().getConsole(), "tellraw " + p.getName() + " \"\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n§aAlgo foi confirmado... Acho que você deveria programar o que\n§aacontece quando alguém confirma o desenho.\"");
+            Sponge.getCommandManager().process(Sponge.getServer().getConsole(), "tellraw " + p.getName() + " \"\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n§aAlgo foi confirmado... Acho que você deveria programar o que\\n§aacontece quando alguém confirma o desenho.\"");
             closePaint(p);
         });
     }

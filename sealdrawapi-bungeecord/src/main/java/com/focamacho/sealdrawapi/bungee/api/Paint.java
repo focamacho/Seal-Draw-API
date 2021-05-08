@@ -13,12 +13,12 @@ public class Paint extends AbstractPaint {
 
         setOnCancel((player, dw) -> {
             ProxiedPlayer p = (ProxiedPlayer) player;
-            p.sendMessage(ComponentSerializer.parse(" \"\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n§cAlgo foi cancelado... Acho que você deveria programar o que\n§cacontece quando alguém cancela o desenho.\""));
+            p.sendMessage(ComponentSerializer.parse(" \"\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n§cAlgo foi cancelado... Acho que você deveria programar o que\\n§cacontece quando alguém cancela o desenho.\""));
             closePaint(p);
         });
         setOnConfirm((player, dw) -> {
             ProxiedPlayer p = (ProxiedPlayer) player;
-            p.sendMessage(ComponentSerializer.parse(" \"\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n§aAlgo foi confirmado... Acho que você deveria programar o que\n§aacontece quando alguém confirma o desenho.\""));
+            p.sendMessage(ComponentSerializer.parse(" \"\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n§aAlgo foi confirmado... Acho que você deveria programar o que\\n§aacontece quando alguém confirma o desenho.\""));
             closePaint(p);
         });
     }

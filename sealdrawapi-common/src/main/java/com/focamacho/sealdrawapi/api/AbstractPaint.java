@@ -58,6 +58,7 @@ public abstract class AbstractPaint {
 
         beforeMessages.add("                             §d§lSeal Draw API §%selected%█");
         beforeMessages.add("                      %colorselector%");
+        beforeMessages.add("");
 
         afterMessages.add("                    %cancel% %clean% %confirm%");
     }
@@ -391,7 +392,7 @@ public abstract class AbstractPaint {
     public String getEditorMessage(Object player) {
         StringBuilder stringBuilder = new StringBuilder("[{\"text\":\"");
 
-        if(!beforeMessages.isEmpty()) beforeMessages.forEach(msg -> stringBuilder.append(replacePlaceholders((this.isBeforeRaw ? "\"}," + msg + ",{\"text\":\"\n" : msg + "\"},{\"text\":\"\n"), player)));
+        if(!beforeMessages.isEmpty()) beforeMessages.forEach(msg -> stringBuilder.append(replacePlaceholders((this.isBeforeRaw ? "\"}," + msg + ",{\"text\":\"\\n" : msg + "\"},{\"text\":\"\\n"), player)));
 
         //Texto do editor
         for(int row = 0; row < this.drawing.getRows(); row++) {
@@ -414,10 +415,8 @@ public abstract class AbstractPaint {
 
         for(int i = 0; i < afterMessages.size(); i++) {
             String msg = afterMessages.get(i);
-            stringBuilder.append(replacePlaceholders((this.isBeforeRaw ? "\"}," + msg + ",{\"text\":\"" + (i + 1 == afterMessages.size() ? "" : "\n") : msg + "\"},{\"text\":\"" + (i + 1 == afterMessages.size() ? "" : "\n")), player));
+            stringBuilder.append(replacePlaceholders((this.isBeforeRaw ? "\"}," + msg + ",{\"text\":\"" + (i + 1 == afterMessages.size() ? "" : "\\n") : msg + "\"},{\"text\":\"" + (i + 1 == afterMessages.size() ? "" : "\\n")), player));
         }
-
-        if(!afterMessages.isEmpty()) afterMessages.forEach(msg -> stringBuilder.append(replacePlaceholders((this.isBeforeRaw ? "\"}," + msg + ",{\"text\":\"" : msg + "\"},{\"text\":\"\n"), player)));
 
         return stringBuilder.append("\"}]").toString().replace("{\"text\":\"\"},", "");
     }
