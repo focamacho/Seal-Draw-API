@@ -1,7 +1,7 @@
 package com.focamacho.sealdrawapi.sponge.command;
 
+import com.focamacho.sealdrawapi.SealDrawAPI;
 import com.focamacho.sealdrawapi.api.AbstractPaint;
-import com.focamacho.sealdrawapi.sponge.SealDrawAPISponge;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
@@ -12,11 +12,17 @@ import org.spongepowered.api.event.network.ClientConnectionEvent;
 
 public class DrawCommand {
 
+    private SealDrawAPI api;
+
+    public DrawCommand(SealDrawAPI api) {
+        this.api = api;
+    }
+
     public void execute(CommandSource sender, String[] args) {
         if(!(sender instanceof Player)) return;
 
         Player player = (Player) sender;
-        AbstractPaint paint = SealDrawAPISponge.api.getPaint(player);
+        AbstractPaint paint = api.getPaint(player);
 
         if(paint != null) {
             if(args.length == 3) {
@@ -68,14 +74,14 @@ public class DrawCommand {
 
     @Listener
     public void onQuit(ClientConnectionEvent.Disconnect event) {
-        AbstractPaint paint = SealDrawAPISponge.api.getPaint(event.getTargetEntity());
+        AbstractPaint paint = api.getPaint(event.getTargetEntity());
         if(paint != null) paint.closePaint(event.getTargetEntity());
     }
 
     @Listener
     public void onChat(MessageChannelEvent.Chat event) {
         if(event.getSource() instanceof Player) {
-            AbstractPaint paint = SealDrawAPISponge.api.getPaint(event.getSource());
+            AbstractPaint paint = api.getPaint(event.getSource());
             if (paint != null && paint.isStopChat()) {
                 event.setCancelled(true);
             }

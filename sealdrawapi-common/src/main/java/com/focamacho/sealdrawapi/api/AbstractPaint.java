@@ -1,5 +1,6 @@
 package com.focamacho.sealdrawapi.api;
 
+import com.focamacho.sealdrawapi.SealDrawAPI;
 import com.focamacho.sealdrawapi.api.lib.ChatButton;
 import com.focamacho.sealdrawapi.api.lib.IPaintRunnable;
 
@@ -13,7 +14,9 @@ import java.util.*;
 @SuppressWarnings({"unused", "UnusedReturnValue"})
 public abstract class AbstractPaint {
 
-    public static List<AbstractPaint> allPaints = new ArrayList<>();
+    private static final Map<SealDrawAPI, List<AbstractPaint>> allPaints = new HashMap<>();
+
+    private final SealDrawAPI api;
 
     public Map<Object, Character> players = new HashMap<>();
     protected Drawing drawing;
@@ -46,9 +49,12 @@ public abstract class AbstractPaint {
      *
      * @param drawing o desenho para editar.
      */
-    public AbstractPaint(Drawing drawing) {
+    public AbstractPaint(SealDrawAPI api, Drawing drawing) {
         this.drawing = drawing;
-        allPaints.add(this);
+        this.api = api;
+
+        if(!allPaints.containsKey(api)) allPaints.put(api, new ArrayList<>());
+        allPaints.get(api).add(this);
 
         beforeMessages.add("                             §d§lSeal Draw API §%selected%█");
         beforeMessages.add("                      %colorselector%");
@@ -63,11 +69,11 @@ public abstract class AbstractPaint {
      * @param player o jogador.
      */
     public void openPaint(Object player) {
-        if(!allPaints.contains(this)) allPaints.add(this);
+        if(!allPaints.get(api).contains(this)) allPaints.get(api).add(this);
 
         //Verificar se o jogador não possui outro editor
         //aberto. Se sim, fechá-lo.
-        AbstractPaint paint = getPaint(player);
+        AbstractPaint paint = getPaint(api, player);
         if(paint != null) paint.closePaint(player);
 
         players.put(player, '0');
@@ -87,7 +93,7 @@ public abstract class AbstractPaint {
             players.remove(player);
             onClose.run(player, this);
         }
-        if(players.isEmpty()) allPaints.remove(this);
+        if(players.isEmpty()) allPaints.get(api).remove(this);
     }
 
     /**
@@ -106,7 +112,7 @@ public abstract class AbstractPaint {
             if(fireRunnable) onClose.run(entry.getKey(), this);
             playersIterator.remove();
         }
-        allPaints.remove(this);
+        allPaints.get(api).remove(this);
     }
 
     /**
@@ -126,8 +132,9 @@ public abstract class AbstractPaint {
      * ou null caso o jogador não esteja com nenhum
      * editor aberto.
      */
-    public static AbstractPaint getPaint(Object player) {
-        for (AbstractPaint paint : allPaints) {
+    public static AbstractPaint getPaint(SealDrawAPI api, Object player) {
+        if(!allPaints.containsKey(api)) allPaints.put(api, new ArrayList<>());
+        for (AbstractPaint paint : allPaints.get(api)) {
             if(paint.isEditing(player)) return paint;
         }
         return null;

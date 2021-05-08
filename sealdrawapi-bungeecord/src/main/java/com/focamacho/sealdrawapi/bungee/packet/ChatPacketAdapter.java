@@ -1,5 +1,6 @@
 package com.focamacho.sealdrawapi.bungee.packet;
 
+import com.focamacho.sealdrawapi.SealDrawAPI;
 import com.focamacho.sealdrawapi.api.AbstractPaint;
 import com.focamacho.sealdrawapi.bungee.SealDrawAPIBungee;
 import de.exceptionflug.protocolize.api.event.PacketReceiveEvent;
@@ -12,14 +13,17 @@ import net.md_5.bungee.protocol.packet.Chat;
 //possua um "editor" aberto.
 public class ChatPacketAdapter extends PacketAdapter<Chat> {
 
-    public ChatPacketAdapter(Stream stream) {
+    private final SealDrawAPI api;
+
+    public ChatPacketAdapter(SealDrawAPI api, Stream stream) {
         super(stream, Chat.class);
+        this.api = api;
     }
 
     @Override
     public void receive(PacketReceiveEvent<Chat> event) {
         if(event.getPlayer() == null) return;
-        AbstractPaint paint = SealDrawAPIBungee.api.getPaint(event.getPlayer());
+        AbstractPaint paint = api.getPaint(event.getPlayer());
         System.out.println(event.getPacket().getMessage());
         if(paint != null && paint.isStopChat() && !event.getPacket().getMessage().startsWith("/sdwa")) {
             event.setCancelled(true);
@@ -29,7 +33,7 @@ public class ChatPacketAdapter extends PacketAdapter<Chat> {
     @Override
     public void send(PacketSendEvent<Chat> event) {
         if(event.getPlayer() == null) return;
-        AbstractPaint paint = SealDrawAPIBungee.api.getPaint(event.getPlayer());
+        AbstractPaint paint = api.getPaint(event.getPlayer());
         if(paint != null && paint.isStopChat() && !event.getPacket().getMessage().contains("{\"action\":\"run_command\",\"value\":\"/sdwa")) {
             event.setCancelled(true);
         }

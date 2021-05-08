@@ -11,15 +11,12 @@ import net.md_5.bungee.api.plugin.Plugin;
 @SuppressWarnings("unused")
 public final class SealDrawAPIBungee {
 
-    public static SealDrawAPI api;
-
     public static void onEnable(SealDrawAPI instance) {
-        api = instance;
-        ProxyServer.getInstance().getPluginManager().registerListener((Plugin) instance.getPlugin(), new DrawCommand());
+        ProxyServer.getInstance().getPluginManager().registerListener((Plugin) instance.getPlugin(), new DrawCommand(instance));
 
         //Protocolize
-        ProtocolAPI.getEventManager().registerListener(new ChatPacketAdapter(Stream.DOWNSTREAM));
-        ProtocolAPI.getEventManager().registerListener(new ChatPacketAdapter(Stream.UPSTREAM));
+        ProtocolAPI.getEventManager().registerListener(new ChatPacketAdapter(instance, Stream.DOWNSTREAM));
+        ProtocolAPI.getEventManager().registerListener(new ChatPacketAdapter(instance, Stream.UPSTREAM));
     }
 
 }

@@ -17,11 +17,8 @@ import org.bukkit.plugin.Plugin;
 @SuppressWarnings("unused")
 public final class SealDrawAPIBukkit {
 
-    public static SealDrawAPI api;
-
     public static void onEnable(SealDrawAPI instance) {
-        api = instance;
-        Bukkit.getPluginManager().registerEvents(new DrawCommand(), (Plugin) instance.getPlugin());
+        Bukkit.getPluginManager().registerEvents(new DrawCommand(instance), (Plugin) instance.getPlugin());
         ((Logger) LogManager.getRootLogger()).addFilter(new DrawFilter());
 
         //ProtocolLib
@@ -32,7 +29,7 @@ public final class SealDrawAPIBukkit {
                 //possua um "editor" aberto.
                 if(event.getPacketType() == PacketType.Play.Server.CHAT) {
                     if(event.getPlayer() == null) return;
-                    AbstractPaint paint = SealDrawAPIBukkit.api.getPaint(event.getPlayer());
+                    AbstractPaint paint = instance.getPaint(event.getPlayer());
                     if(paint != null && paint.isStopChat() && !event.getPacket().getChatComponents().read(0).getJson().contains("{\"action\":\"run_command\",\"value\":\"/sdwa")) {
                         event.setCancelled(true);
                     }

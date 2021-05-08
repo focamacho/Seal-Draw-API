@@ -28,7 +28,7 @@ public class SealDrawAPI {
      */
     public AbstractPaint createPaint(Drawing drawing) {
         try {
-            return (AbstractPaint) Implementations.paintConstructor.newInstance(drawing);
+            return (AbstractPaint) Implementations.paintConstructor.newInstance(this, drawing);
         } catch (Exception ignored) {
             return null;
         }
@@ -45,7 +45,7 @@ public class SealDrawAPI {
      * editor aberto.
      */
     public AbstractPaint getPaint(Object player) {
-        return AbstractPaint.getPaint(player);
+        return AbstractPaint.getPaint(this, player);
     }
 
     /**

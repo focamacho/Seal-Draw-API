@@ -15,32 +15,25 @@ import org.spongepowered.api.entity.living.player.Player;
 public class ChatPacketHandler extends ChannelDuplexHandler {
 
     private final Player player;
+    private final PacketHandler handler;
 
-    public ChatPacketHandler(EntityPlayer player) {
+    public ChatPacketHandler(EntityPlayer player, PacketHandler handler) {
         this.player = (Player) player;
+        this.handler = handler;
     }
 
     @Override
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
         if(msg instanceof SPacketChat) {
             SPacketChat packet = (SPacketChat) msg;
-            AbstractPaint paint = SealDrawAPISponge.api.getPaint(player);
+            AbstractPaint paint = handler.api.getPaint(player);
 
-            if(paint != null && paint.isStopChat() && !getChatComponent(packet).contains("{\"action\":\"run_command\",\"value\":\"/sdwa")) {
+            if(paint != null && paint.isStopChat() && !handler.getChatComponent(packet).contains("{\"action\":\"run_command\",\"value\":\"/sdwa")) {
                 return;
             }
         }
 
         super.write(ctx ,msg, promise);
-    }
-
-    private static String getChatComponent(SPacketChat packet) {
-        try {
-            PacketHandler.chatComponentField.setAccessible(true);
-            return ITextComponent.Serializer.componentToJson((ITextComponent) PacketHandler.chatComponentField.get(packet)).toLowerCase();
-        } catch(Exception ignored) {
-            return "";
-        }
     }
 
 }
