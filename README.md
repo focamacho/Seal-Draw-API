@@ -128,8 +128,3 @@ E para gerar um desenho a partir da String é só usar:
 ```java
     Drawing drawing = Drawing.fromString(desenho);
 ```
-
-### TO-DO
-Itens planejados para a API:
-- [ ] Remover dependência do Protocolize para o BungeeCord.
-- [ ] Corrigir problema de kick por spam no Spigot sem necessidade de configuração por parte do usuário.
