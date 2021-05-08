@@ -21,7 +21,6 @@ public class PacketHandler {
     private final Map<Player, ChatPacketHandler> handlers = Maps.newConcurrentMap();
 
     public PacketHandler(SealDrawAPI api) {
-        Sponge.getEventManager().registerListeners(api.getPlugin(), this);
         this.api = api;
 
         Field toAssign;
