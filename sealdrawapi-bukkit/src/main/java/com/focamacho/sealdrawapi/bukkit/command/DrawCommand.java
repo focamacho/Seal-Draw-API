@@ -2,7 +2,6 @@ package com.focamacho.sealdrawapi.bukkit.command;
 
 import com.focamacho.sealdrawapi.SealDrawAPI;
 import com.focamacho.sealdrawapi.api.AbstractPaint;
-import com.focamacho.sealdrawapi.bukkit.SealDrawAPIBukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

@@ -1,12 +1,10 @@
-package com.focamacho.sealdrawapi.sponge.packet;
+package com.focamacho.sealdrawapi.bukkit.packet;
 
 import com.focamacho.sealdrawapi.api.AbstractPaint;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.network.play.server.SPacketChat;
-import org.spongepowered.api.entity.living.player.Player;
+import org.bukkit.entity.Player;
 
 //Bloqueia o recebimento de mensagens caso o jogador
 //possua um "editor" aberto.
@@ -15,18 +13,16 @@ public class ChatPacketHandler extends ChannelDuplexHandler {
     private final Player player;
     private final PacketHandler handler;
 
-    public ChatPacketHandler(EntityPlayer player, PacketHandler handler) {
-        this.player = (Player) player;
+    public ChatPacketHandler(Player player, PacketHandler handler) {
+        this.player = player;
         this.handler = handler;
     }
 
     @Override
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
-        if(msg instanceof SPacketChat) {
-            SPacketChat packet = (SPacketChat) msg;
+        if(handler.chatPacketClass.isInstance(msg)) {
             AbstractPaint paint = handler.api.getPaint(player);
-
-            if(paint != null && paint.isStopChat() && !handler.getChatComponent(packet).contains("{\"action\":\"run_command\",\"value\":\"/sdwa")) {
+            if(paint != null && paint.isStopChat() && !handler.getChatComponent(msg).contains("{\"action\":\"run_command\",\"value\":\"/sdwa")) {
                 return;
             }
         }

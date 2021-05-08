@@ -8,7 +8,6 @@ import net.minecraft.network.play.server.SPacketChat;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
-import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 
 import java.lang.reflect.Field;

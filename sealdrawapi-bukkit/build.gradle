@@ -12,10 +12,10 @@ repositories {
 
 dependencies {
     compile project(':sealdrawapi-common')
-    compileOnly 'org.bukkit:bukkit:1.12.2-R0.1-SNAPSHOT'
+    compileOnly 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
     compileOnly group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.14.0'
     compileOnly group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.14.0'
-    compileOnly group: "com.comphenix.protocol", name: "ProtocolLib", version: "4.6.0";
+    compileOnly group: 'io.netty', name: 'netty-all', version: '4.1.63.Final'
 }
 
 processResources {
