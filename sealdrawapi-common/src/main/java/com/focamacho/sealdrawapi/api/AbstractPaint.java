@@ -185,14 +185,14 @@ public abstract class AbstractPaint {
 
     /**
      * Limpa o desenho, deixando a tela
-     * toda em branco.
+     * na cor padrão do desenho.
      *
      * @return esse objeto.
      */
     public AbstractPaint clear() {
         for(int row = 0; row < this.drawing.getRows(); row++) {
             for(int column = 0; column < this.drawing.getColumns(); column++) {
-                this.drawing.setColor(row, column, 'f');
+                this.drawing.setColor(row, column, this.drawing.getDefaultColor());
             }
         }
         return this;

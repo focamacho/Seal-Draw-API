@@ -9,6 +9,7 @@ public class Drawing {
 
     private final int rows;
     private final int columns;
+    private final char defaultColor;
     private final char[][] drawing;
 
     /**
@@ -23,6 +24,7 @@ public class Drawing {
     public Drawing(int rows, int columns) {
         this.rows = rows;
         this.columns = columns;
+        this.defaultColor = 'f';
         this.drawing = getDefault(rows, columns, 'f');
     }
 
@@ -40,6 +42,7 @@ public class Drawing {
     public Drawing(int rows, int columns, char color) {
         this.rows = rows;
         this.columns = columns;
+        this.defaultColor = color;
         this.drawing = getDefault(rows, columns, color);
     }
 
@@ -105,6 +108,16 @@ public class Drawing {
      */
     public int getColumns() {
         return this.columns;
+    }
+
+    /**
+     * Retorna a cor padrão desse
+     * desenho.
+     *
+     * @return a cor padrão do desenho.
+     */
+    public char getDefaultColor() {
+        return this.defaultColor;
     }
 
     /**
