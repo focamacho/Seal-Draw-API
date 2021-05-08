@@ -23,14 +23,6 @@ public class Paint extends AbstractPaint {
     }
 
     @Override
-    public void openPaint(Object player) {
-        super.openPaint(player);
-        Player p = (Player) player;
-        players.put(p, '0');
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + p.getName() + " " + getEditorMessage(player));
-    }
-
-    @Override
     public void updatePaint() {
         for (Object p : players.keySet()) {
             onUpdate.run(p, this);

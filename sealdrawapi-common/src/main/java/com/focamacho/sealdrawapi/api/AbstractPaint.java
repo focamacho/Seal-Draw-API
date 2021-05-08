@@ -19,8 +19,12 @@ public abstract class AbstractPaint {
     protected Drawing drawing;
     private boolean stopChat = true;
 
-    private String beforeMessage = "                             §d§lSeal Draw API §%selected%█\\n                      %colorselector%\\n";
-    private String afterMessage = "                    %cancel% %clean% %confirm%";
+    private boolean isBeforeRaw = false;
+    private List<String> beforeMessages = new ArrayList<>();
+
+    private boolean isAfterRaw = false;
+    private List<String> afterMessages = new ArrayList<>();
+
     private int spaces = 22;
     private char[] availableColors = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
@@ -29,9 +33,9 @@ public abstract class AbstractPaint {
     private ChatButton confirmButton = ChatButton.create().setText("§a[Confirmar]").setHoverText("§aClique aqui para confirmar.").setAction(ChatButton.ActionType.RUN_COMMAND, "/sdwa b co");
     private ChatButton colorButton = ChatButton.create().setText("§%color%█").setHoverText("§%color%Clique aqui para escolher essa cor.").setAction(ChatButton.ActionType.RUN_COMMAND, "/sdwa c %color%");
 
-    protected IPaintRunnable onCancel = (player, paint) -> paint.closePaint(player);
-    protected IPaintRunnable onConfirm = (player, paint) -> paint.closePaint(player);
-    protected IPaintRunnable onClean = (player, paint) -> clear();
+    protected IPaintRunnable onCancel = (player, paint) -> {};
+    protected IPaintRunnable onConfirm = (player, paint) -> {};
+    protected IPaintRunnable onClean = (player, paint) -> {};
     protected IPaintRunnable onOpen = (player, paint) -> {};
     protected IPaintRunnable onUpdate = (player, paint) -> {};
     protected IPaintRunnable onClose = (player, paint) -> {};
@@ -45,6 +49,11 @@ public abstract class AbstractPaint {
     public AbstractPaint(Drawing drawing) {
         this.drawing = drawing;
         allPaints.add(this);
+
+        beforeMessages.add("                             §d§lSeal Draw API §%selected%█");
+        beforeMessages.add("                      %colorselector%");
+
+        afterMessages.add("                    %cancel% %clean% %confirm%");
     }
 
     /**
@@ -61,7 +70,10 @@ public abstract class AbstractPaint {
         AbstractPaint paint = getPaint(player);
         if(paint != null) paint.closePaint(player);
 
+        players.put(player, '0');
         onOpen.run(player, this);
+
+        updatePaint();
     }
 
     /**
@@ -194,37 +206,83 @@ public abstract class AbstractPaint {
     }
 
     /**
-     * Define a mensagem que deverá aparecer
+     * Define as mensagens que deverão aparecer
      * antes do desenho.
      * Esse método é usado para formatação caso
      * você queria escrever algo logo acima
      * do desenho.
      *
-     * @param message a mensagem para ser exibida
+     * @param isRaw se as mensagens estão em formato
+     *              "raw" (JSON) ou não.
+     * @param messages a mensagens que serão exibidas
      *                antes do desenho.
      * @return esse objeto.
      */
-    public AbstractPaint setBeforeMessage(String message) {
-        this.beforeMessage = message.replace("&", "§").replace("\\n", "\n").replace("\n", "\\n");
+    public AbstractPaint setBeforeMessages(boolean isRaw, String... messages) {
+        this.isBeforeRaw = isRaw;
+        this.beforeMessages = Arrays.asList(messages);
         return this;
     }
 
     /**
-     * Define a mensagem que deverá aparecer
+     * Retorna as mensagens que são enviadas antes
+     * do editor de imagem no chat.
+     *
+     * @return as mensagens enviadas antes do editor.
+     */
+    public List<String> getBeforeMessages() {
+        return this.beforeMessages;
+    }
+
+    /**
+     * Retorna se as mensagens definidas para serem
+     * enviadas antes do editor de imagem no chat
+     * estão em formato JSON ou não.
+     *
+     * @return se as mensagens antes do editor estão em JSON.
+     */
+    public boolean isBeforeRaw() {
+        return this.isBeforeRaw;
+    }
+
+    /**
+     * Define as mensagens que deverão aparecer
      * após o desenho.
      * Esse método é usado para formatação caso
      * você queria escrever algo logo abaixo
-     * do desenho, e também para definir a localização
-     * de outras coisas como botões de confirmar,
-     * limpar, cancelar.
+     * do desenho.
      *
-     * @param message a mensagem para ser exibida
-     *                após o desenho.
+     * @param isRaw se as mensagens estão em formato
+     *              "raw" (JSON) ou não.
+     * @param messages a mensagens que serão exibidas
+     *                antes do desenho.
      * @return esse objeto.
      */
-    public AbstractPaint setAfterMessage(String message) {
-        this.afterMessage = message.replace("&", "§").replace("\\n", "\n").replace("\n", "\\n");
+    public AbstractPaint setAfterMessage(boolean isRaw, String... messages) {
+        this.isAfterRaw = isRaw;
+        this.afterMessages = Arrays.asList(messages);
         return this;
+    }
+
+    /**
+     * Retorna se as mensagens definidas para serem
+     * enviadas após o editor de imagem no chat
+     * estão em formato JSON ou não.
+     *
+     * @return se as mensagens após o editor estão em JSON.
+     */
+    public boolean isAfterRaw() {
+        return this.isAfterRaw;
+    }
+
+    /**
+     * Retorna as mensagens que são enviadas após
+     * o editor de imagem no chat.
+     *
+     * @return as mensagens enviadas após o editor.
+     */
+    public List<String> getAfterMessages() {
+        return this.afterMessages;
     }
 
     /**
@@ -235,7 +293,7 @@ public abstract class AbstractPaint {
      * @param colors as cores disponíveis.
      * @return esse objeto.
      */
-    public AbstractPaint setAvailableColors(char[] colors) {
+    public AbstractPaint setAvailableColors(char... colors) {
         this.availableColors = colors;
         return this;
     }
@@ -324,18 +382,9 @@ public abstract class AbstractPaint {
      * @return a mensagem em JSON do editor.
      */
     public String getEditorMessage(Object player) {
-        StringBuilder stringBuilder = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder("[{\"text\":\"");
 
-        //Texto antes do editor
-        stringBuilder.append("[\"\",{\"text\":\"").append(this.beforeMessage
-                .replace("%selected%", "" + players.getOrDefault(player, '0'))
-                .replace("%colorselector%", getColorSelector())
-                .replace("%confirm%", "\"}," + confirmButton.toJson() + ",{\"text\":\"")
-                .replace("%cancel%", "\"}," + cancelButton.toJson() + ",{\"text\":\"")
-                .replace("%clean%", "\"}," + cleanButton.toJson() + ",{\"text\":\""));
-
-        if(beforeMessage.isEmpty()) stringBuilder.append("\"},{\"text\":\"");
-        else stringBuilder.append("\\n\"},{\"text\":\"");
+        if(!beforeMessages.isEmpty()) beforeMessages.forEach(msg -> stringBuilder.append(replacePlaceholders((this.isBeforeRaw ? "\"}," + msg + ",{\"text\":\"\n" : msg + "\"},{\"text\":\"\n"), player)));
 
         //Texto do editor
         for(int row = 0; row < this.drawing.getRows(); row++) {
@@ -356,15 +405,14 @@ public abstract class AbstractPaint {
             stringBuilder.append("\\n\"},{\"text\":\"");
         }
 
-        //Texto após o editor
-        stringBuilder.append(this.afterMessage
-                .replace("%selected%", "" + players.getOrDefault(player, '0'))
-                .replace("%colorselector%", getColorSelector())
-                .replace("%confirm%", "\"}," + confirmButton.toJson() + ",{\"text\":\"")
-                .replace("%cancel%", "\"}," + cancelButton.toJson() + ",{\"text\":\"")
-                .replace("%clean%", "\"}," + cleanButton.toJson() + ",{\"text\":\"")).append("\"}]");
+        for(int i = 0; i < afterMessages.size(); i++) {
+            String msg = afterMessages.get(i);
+            stringBuilder.append(replacePlaceholders((this.isBeforeRaw ? "\"}," + msg + ",{\"text\":\"" + (i + 1 == afterMessages.size() ? "" : "\n") : msg + "\"},{\"text\":\"" + (i + 1 == afterMessages.size() ? "" : "\n")), player));
+        }
 
-        return stringBuilder.toString().replace("{\"text\":\"\"},", "");
+        if(!afterMessages.isEmpty()) afterMessages.forEach(msg -> stringBuilder.append(replacePlaceholders((this.isBeforeRaw ? "\"}," + msg + ",{\"text\":\"" : msg + "\"},{\"text\":\"\n"), player)));
+
+        return stringBuilder.append("\"}]").toString().replace("{\"text\":\"\"},", "");
     }
 
     /**
@@ -576,6 +624,25 @@ public abstract class AbstractPaint {
      */
     public boolean isStopChat() {
         return this.stopChat;
+    }
+
+    /**
+     * Da replace na string para adicionar os
+     * botões de confirmar, cancelar, limpar
+     * e seletor de cores.
+     *
+     * @param str a string para substituir os placeholders
+     *            pelos botões.
+     * @param player o jogador atual.
+     * @return a string com os botões adicionados.
+     */
+    protected String replacePlaceholders(String str, Object player) {
+        return str.replace("%selected%", "" + players.getOrDefault(player, '0'))
+                .replace("%colorselector%", getColorSelector())
+                .replace("%confirm%", "\"}," + confirmButton.toJson() + ",{\"text\":\"")
+                .replace("%cancel%", "\"}," + cancelButton.toJson() + ",{\"text\":\"")
+                .replace("%clean%", "\"}," + cleanButton.toJson() + ",{\"text\":\"");
+
     }
 
 }

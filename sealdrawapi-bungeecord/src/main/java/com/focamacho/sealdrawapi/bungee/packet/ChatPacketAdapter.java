@@ -34,4 +34,5 @@ public class ChatPacketAdapter extends PacketAdapter<Chat> {
             event.setCancelled(true);
         }
     }
+
 }

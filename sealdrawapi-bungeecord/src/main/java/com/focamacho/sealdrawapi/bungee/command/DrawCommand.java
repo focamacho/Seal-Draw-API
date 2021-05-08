@@ -39,14 +39,17 @@ public class DrawCommand implements Listener {
                     } catch (IndexOutOfBoundsException ignored) {}
                 }
 
-                //Trocar a cor selecionada
+                //Botões de confirmar, cancelar e limpar
                 if(args[0].equalsIgnoreCase("b")) {
                     if(args[1].equalsIgnoreCase("co")) {
                         paint.getOnConfirm().run(player, paint);
+                        paint.closePaint(player);
                     } else if(args[1].equalsIgnoreCase("ca")) {
                         paint.getOnCancel().run(player, paint);
+                        paint.closePaint(player);
                     } else if(args[1].equalsIgnoreCase("cl")) {
                         paint.getOnClean().run(player, paint);
+                        paint.clear();
                         paint.updatePaint();
                     }
                 }

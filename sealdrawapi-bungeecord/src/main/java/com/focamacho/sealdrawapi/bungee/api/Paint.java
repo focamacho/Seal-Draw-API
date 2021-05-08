@@ -1,6 +1,5 @@
 package com.focamacho.sealdrawapi.bungee.api;
 
-
 import com.focamacho.sealdrawapi.api.AbstractPaint;
 import com.focamacho.sealdrawapi.api.Drawing;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -21,14 +20,6 @@ public class Paint extends AbstractPaint {
             p.sendMessage(ComponentSerializer.parse(" \"\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n§aAlgo foi confirmado... Acho que você deveria programar o que\n§aacontece quando alguém confirma o desenho.\""));
             closePaint(p);
         });
-    }
-
-    @Override
-    public void openPaint(Object player) {
-        super.openPaint(player);
-        ProxiedPlayer p = (ProxiedPlayer) player;
-        players.put(p, '0');
-        p.sendMessage(ComponentSerializer.parse(getEditorMessage(player)));
     }
 
     @Override
