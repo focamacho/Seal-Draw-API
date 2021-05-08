@@ -22,13 +22,3 @@ dependencies {
     annotationProcessor 'org.spongepowered:spongeapi:7.3.0'
     compileOnly "com.ichorpowered:protocolcontrol:0.0.2"
 }
-
-reobf {
-    shadowJar{
-        dependencies {
-            include(dependency(':seallibrary-common'))
-        }
-    }
-}
-
-tasks.build.dependsOn reobfShadowJar
