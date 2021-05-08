@@ -118,10 +118,7 @@ Exemplo de como fazer isso quando o jogador clica no botão de confirmar:
 
     //Definir a função do botão de confirmar
     paint.setOnConfirm((player, paint) -> {
-            //Finaliza o editor quando confirmado
-            paint.closePaint(player);
-
-            //Converte o desenho em uma String
+            //Converte o desenho em uma String, você pode salvar esse valor
             String desenho = paint.getDrawing().toString();
     });
 ```
