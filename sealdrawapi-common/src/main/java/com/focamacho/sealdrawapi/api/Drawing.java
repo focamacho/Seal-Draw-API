@@ -183,10 +183,10 @@ public class Drawing {
         if(color == replace) return this;
 
         setColor(row, column, replace);
-        if(getColor(row - 1, column) == color) fillColor(row - 1, column, replace);
-        if(getColor(row + 1, column) == color) fillColor(row + 1, column, replace);
-        if(getColor(row, column - 1) == color) fillColor(row, column - 1, replace);
-        if(getColor(row, column + 1) == color) fillColor(row, column + 1, replace);
+        if(row > 0 && this.rows >= row - 1 && getColor(row - 1, column) == color) fillColor(row - 1, column, replace);
+        if(row >= 0 && row + 1 < this.rows && getColor(row + 1, column) == color) fillColor(row + 1, column, replace);
+        if(column > 0 && this.columns >= column - 1 && getColor(row, column - 1) == color) fillColor(row, column - 1, replace);
+        if(column >= 0 && column + 1 < this.columns && getColor(row, column + 1) == color) fillColor(row, column + 1, replace);
 
         return this;
     }

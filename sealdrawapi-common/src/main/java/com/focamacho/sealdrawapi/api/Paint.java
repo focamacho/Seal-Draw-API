@@ -22,6 +22,7 @@ public abstract class Paint {
     public Map<Object, Character> players = new HashMap<>();
     protected Drawing drawing;
     private boolean stopChat = true;
+    private boolean paintBucket = true;
 
     private boolean isBeforeRaw = false;
     private List<String> beforeMessages = new ArrayList<>();
@@ -282,7 +283,7 @@ public abstract class Paint {
     public Paint clear() {
         if(this.drawing.isEmpty()) return this;
 
-        char[][] actualDrawing = this.getDrawing().toArray();
+        char[][] actualDrawing = Arrays.copyOf(this.getDrawing().toArray(), this.getDrawing().toArray().length);
         addUndoTask(() -> {
             for(int row = 0; row < this.drawing.getRows(); row++) {
                 for(int column = 0; column < this.drawing.getColumns(); column++) {
@@ -655,6 +656,33 @@ public abstract class Paint {
      */
     public boolean isStopChat() {
         return this.stopChat;
+    }
+
+    /**
+     * Define se esse "editor" possui a função
+     * de double-click em um pixel para usar
+     * a ferramenta de "balde de tinta" nele.
+     *
+     * @param enabled true para ativar a função e
+     *                false para desativar.
+     * @return esse objeto.
+     */
+    public Paint setPaintBucket(boolean enabled) {
+        this.paintBucket = enabled;
+        return this;
+    }
+
+    /**
+     * Retorna se o editor está com a função
+     * de double-click em um pixel para usar
+     * a ferramenta de "balde de tinta" nele
+     * ou não.
+     *
+     * @return se a função de balde de tinta está
+     * ativa ou não.
+     */
+    public boolean isPaintBucket() {
+        return this.paintBucket;
     }
 
     /**
