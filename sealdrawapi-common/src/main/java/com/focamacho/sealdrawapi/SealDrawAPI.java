@@ -1,7 +1,7 @@
 package com.focamacho.sealdrawapi;
 
-import com.focamacho.sealdrawapi.api.Paint;
 import com.focamacho.sealdrawapi.api.Drawing;
+import com.focamacho.sealdrawapi.api.Paint;
 import com.focamacho.sealdrawapi.impl.Implementations;
 
 @SuppressWarnings("unused")
