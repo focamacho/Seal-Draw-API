@@ -1,21 +1,3 @@
-# Requisitos
-Alguns requisitos são necessários para que seja possível utilizar a Seal Draw API.
-
-Esses requisitos se provaram necessários para evitar que o jogador que está a editar uma pixel art receba mensagens de chat durante o processo, o que faria com que o seu desenho se movesse para cima, atrapalhando a edição.
-
-Aqui está a lista do que é necessário para cada ‘software’:
-### Bukkit
- - Nenhuma dependência adicional é necessária.
-### BungeeCord
- - Protocolize [[download](https://www.spigotmc.org/resources/protocolize-protocollib-for-bungeecord-waterfall-aegis.63778/)]
-   - É necessário também adicionar o Protocolize como dependência no plugin que você está criando. O motivo disso é para fazê-lo carregar antes do seu plugin.
-   - Para isso é só adicionar a linha ``depends: ["protocolize-plugin"]`` no seu `bungee.yml`.
-### Sponge
- - Nenhuma dependência adicional é necessária.
-
-# Aviso
-Ainda não existe nenhuma release da Seal Draw API disponível (mesmo que esse README diga que sim algumas linhas para baixo). Caso queira testá-la você deverá fazê-lo compilando você mesmo o source-code com ``./gradlew clean build``.
-
 # Seal Draw API
 A Seal Draw é uma API para Bukkit, BungeeCord e Sponge que permite a criação de Pixel Arts por meio do chat do minecraft.
 
@@ -23,6 +5,38 @@ Ela facilita para que os desenvolvedores possam implementar em seus plugins vár
 
 Um exemplo de possível sistema utilizando a API, é a criação de emblemas de clãs personalizados.
 <img src="https://i.imgur.com/UFBDSfE.png"></img>
+
+## Indíce
+Atalhos para certas seções desse documento.
+- [Seal Draw API](#Seal-Draw-API)
+  * [Requisitos](#Requisitos)
+     + [Bukkit](#Bukkit)
+     + [BungeeCord](#BungeeCord)
+     + [Sponge](#Sponge)
+  * [Primeiros Passos](#Primeiros-Passos)
+  * [Usando a API](#Usando-a-API)
+    + [Como definir botões clicáveis no "editor"](#Como-definir-botões-clicáveis-no-editor)
+    + [Como salvar os desenhos](#Como-salvar-os-desenhos)
+    + [Exemplo prático](#Exemplo-prático)
+
+## Requisitos
+Alguns requisitos são necessários para que seja possível utilizar a Seal Draw API.
+
+Esses requisitos se provaram necessários para evitar que o jogador que está a editar uma pixel art receba mensagens de chat durante o processo, o que faria com que o seu desenho se movesse para cima, atrapalhando a edição.
+
+Aqui está a lista do que é necessário para cada ‘software’:
+### Bukkit
+- Nenhuma dependência adicional é necessária.
+### BungeeCord
+- Protocolize [[download](https://www.spigotmc.org/resources/protocolize-protocollib-for-bungeecord-waterfall-aegis.63778/)]
+   - É necessário também adicionar o Protocolize como dependência no plugin que você está criando. O motivo disso é para fazê-lo carregar antes do seu plugin.
+   - Para isso é só adicionar a linha ``depends: ["protocolize-plugin"]`` no seu `bungee.yml`.
+### Sponge
+- Nenhuma dependência adicional é necessária.
+
+# Aviso
+Ainda não existe nenhuma release da Seal Draw API disponível (mesmo que esse README diga que sim algumas linhas para baixo). Caso queira testá-la você deverá fazê-lo compilando você mesmo o source-code com ``./gradlew clean build``.
+
 
 ## Primeiros passos
 Para começar a usar a API, você precisa primeiro adicioná-la no seu projeto. Aqui estão as dependências para Maven e Gradle:
