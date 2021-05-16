@@ -184,7 +184,7 @@ Aqui está um exemplo prático de como a API pode ser usada para criar um sistem
         );
 		
 	//Define as mensagens que são exibidas após o desenho.
-	paint.setAfterMessage(false, 
+	paint.setAfterMessages(false, 
 		"",
 		"                 %cancel% %clean% %confirm%",
 		""
