@@ -64,7 +64,7 @@ Para criar a instância da API você precisará fornecer a instância do seu plu
 
 Exemplo:
 ```java
-import SealDrawAPI;
+import com.focamacho.sealdrawapi.SealDrawAPI;
 
 public class ExamplePlugin extends JavaPlugin {
 
@@ -82,7 +82,7 @@ public class ExamplePlugin extends JavaPlugin {
 Com a instância da API você terá acesso a criação de novas "telas de desenhos", as quais eu me referencio como "editor" nos docs disponíveis nas classes do projeto.
 Para criar uma tela de desenhos é só usar o método `SealDrawAPI#createPaint`, passando junto dela o desenho que você deseja editar.
 
-Para criar um desenho é só criar um objeto da classe `Drawing`, passando as informações de tamanho da linha, e tamanho da coluna do desenho.
+Para criar um desenho é só criar um objeto da classe `Drawing`, passando as informações de número de linhas e colunas do desenho.
 
 **ATENÇÃO! NÃO ABUSE DO TAMANHO.**
 
@@ -96,31 +96,62 @@ Exemplo:
     Drawing desenho = new Drawing(16, 16);
 
     //Criar uma tela de edição para esse desenho.
-    AbstractPaint paint = api.createPaint(desenho);
+    Paint paint = api.createPaint(desenho);
     
     //Abre essa tela para um jogador
     paint.openPaint(player);
 ```
 
-Com um [Drawing](https://github.com/Seal-Island/Seal-Draw-API/blob/master/sealdrawapi-common/src/main/java/com/focamacho/sealdrawapi/api/Drawing.java) e um objeto da classe [AbstractPaint](https://github.com/Seal-Island/Seal-Draw-API/blob/master/sealdrawapi-common/src/main/java/com/focamacho/sealdrawapi/api/AbstractPaint.java), você já está pronto para criar seus desenhos.
+Com um [Drawing](https://github.com/Seal-Island/Seal-Draw-API/blob/master/sealdrawapi-common/src/main/java/com/focamacho/sealdrawapi/api/Drawing.java) e um objeto da classe [Paint](https://github.com/Seal-Island/Seal-Draw-API/blob/master/sealdrawapi-common/src/main/java/com/focamacho/sealdrawapi/api/Paint.java), você já está pronto para criar seus desenhos.
 
 Confira a documentação disponível nessas duas classes para poder se aprofundar mais.
 
+### Como definir botões clicáveis no "editor"
+As vezes é necessário definir alguns botões adicionais para os usuários. Por padrão, a Seal Draw API já define os seguintes botões:
+
+- cancel
+- confirm
+- clean
+- color
+
+Você pode editá-los para que exibam o texto e efetue as ações que você quiser. Exemplo:
+```java
+   paint.getButton("confirm")
+        .setText("&aConfirmar")
+        .setHover("&aClique para confirmar o desenho.")
+        .setAction((player, paint) -> {
+            //Sempre se lembre de fechar o editor ao confirmar.
+            paint.closePaint(player);
+        
+            //Aqui você pode definir o que quiser
+   });
+```
+
+O botão "color" é um caso a parte. Você somente pode editar o seu texto e não suas ações, isso porque ele possui uma função muito específica que é selecionar a cor que o usuário está utilizando no momento.
+Para modificar seu texto é usado o método `Paint#setColorSelectorText`.
+
+Você também pode criar novos botões pelo método `Paint#setButton`.
+
+Todos os botões podem ser definido nas mensagem antes e após o desenho no chat, por meio de seus respectivos placeholders. Exemplo: `%cancel%`, `%confirm%`, `%clean%`.
+
 ### Como salvar os desenhos
 
-Você provavelmente vai querer salvar os desenhos que os seus jogadores fizerem. Para isso, você pode convertê-los em uma String, e quando for necessário carregar o desenho novamente a partir dessa String.
+Você provavelmente vai querer salvar os desenhos que os seus jogadores fizerem. Para isso, você pode convertê-los em uma String, e quando for necessário poderá carregar o desenho novamente a partir dessa String.
 
 Exemplo de como fazer isso quando o jogador clica no botão de confirmar:
 
 ```java
     //Criar uma tela de edição
-    AbstractPaint paint = api.createPaint(desenho);
+    Paint paint = api.createPaint(new Drawing(16, 16));
 
-    //Definir a função do botão de confirmar
-    paint.setOnConfirm((player, paint) -> {
+    paint.getButton("confirm")
+        .setAction((player, paint) -> {
+            //Sempre se lembre de fechar o editor ao confirmar.
+            paint.closePaint(player);
+
             //Converte o desenho em uma String, você pode salvar esse valor
             String desenho = paint.getDrawing().toString();
-    });
+        });
 ```
 
 E para gerar um desenho a partir da String é só usar:
@@ -128,3 +159,53 @@ E para gerar um desenho a partir da String é só usar:
 ```java
     Drawing drawing = Drawing.fromString(desenho);
 ```
+
+### Exemplo prático
+Aqui está um exemplo prático de como a API pode ser usada para criar um sistema de emblemas para Clãs.
+
+```java
+	//Cria um novo editor e desenho
+	Paint paint = api.createPaint(new Drawing(8, 8));
+	//Define uma identação de 28 espaços antes do desenho.
+	//Isso é feito para centralizá-lo.
+	paint.setSpaces(28);
+
+	//Define as mensagens que são exibidas antes do desenho.
+	paint.setBeforeMessages(false, 
+		"                            &d&lBrasão do Clã",
+		"",
+		"           &aChegou a hora de criar o brasão do seu clã.",
+		"       &aPara isso é só clicar nos quadradinhos abaixo para",
+		"               &acolori-los da forma que você quiser!",
+		"",
+		"                           &eCor selecionada: &%selected%█",
+		"                    %colorselector%",
+		""
+        );
+		
+	//Define as mensagens que são exibidas após o desenho.
+	paint.setAfterMessage(false, 
+		"",
+		"                 %cancel% %clean% %confirm%",
+		""
+        );
+
+	//Define a ação ao clicar no botão confirmar.
+	paint.getButton("confirm").setAction((player, editor) -> {
+		//Fecha o desenho para o jogador. Nunca esqueça desse detalhe.
+		editor.closePaint(player);
+		
+		//Aqui você pode definir todo o resto para criar o clã.
+	});
+	
+	//Define a ação ao clicar no botão cancelar.
+	paint.getButton("cancel").setAction((player, editor) -> {
+		//Fecha o desenho para o jogador. Nunca esqueça desse detalhe.
+		editor.closePaint(player);
+		
+		//Aqui você pode definir todo o resto para cancelar a criação do clã.
+	});
+```
+Esse é o resultado do código acima:
+
+<img src="https://i.imgur.com/G6mG9Zl.png"></img>
