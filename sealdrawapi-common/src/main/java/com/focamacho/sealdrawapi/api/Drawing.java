@@ -180,7 +180,9 @@ public class Drawing {
      * @return esse desenho.
      */
     public Drawing setColor(int row, int column, char color) {
-        this.drawing[row][column] = color;
+        if(this.rows > row && this.columns > column) {
+            this.drawing[row][column] = color;
+        }
         return this;
     }
 
@@ -220,7 +222,10 @@ public class Drawing {
      * @return a cor do pixel.
      */
     public char getColor(int row, int column) {
-        return this.drawing[row][column];
+        if(this.rows > row && this.columns > column) {
+            return this.drawing[row][column];
+        }
+        return this.getDefaultColor();
     }
 
     /**
