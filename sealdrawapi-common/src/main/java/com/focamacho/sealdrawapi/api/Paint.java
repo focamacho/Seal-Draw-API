@@ -262,7 +262,7 @@ public abstract class Paint {
      *                antes do desenho.
      * @return esse objeto.
      */
-    public Paint setAfterMessage(boolean isRaw, String... messages) {
+    public Paint setAfterMessages(boolean isRaw, String... messages) {
         this.isAfterRaw = isRaw;
         this.afterMessages = Arrays.asList(messages);
         return this;
