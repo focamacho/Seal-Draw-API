@@ -1,7 +1,7 @@
 package com.focamacho.sealdrawapi.bungee.command;
 
 import com.focamacho.sealdrawapi.SealDrawAPI;
-import com.focamacho.sealdrawapi.api.AbstractPaint;
+import com.focamacho.sealdrawapi.api.Paint;
 import com.focamacho.sealdrawapi.api.lib.PaintButton;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -23,7 +23,7 @@ public class DrawCommand implements Listener {
         if(!(sender instanceof ProxiedPlayer)) return;
 
         ProxiedPlayer player = (ProxiedPlayer) sender;
-        AbstractPaint paint = api.getPaint(player);
+        Paint paint = api.getPaint(player);
 
         if(paint != null) {
             if(args.length == 3) {
@@ -67,13 +67,13 @@ public class DrawCommand implements Listener {
 
     @EventHandler
     public void onQuit(PlayerDisconnectEvent event) {
-        AbstractPaint paint = api.getPaint(event.getPlayer());
+        Paint paint = api.getPaint(event.getPlayer());
         if(paint != null) paint.closePaint(event.getPlayer());
     }
 
     @EventHandler
     public void onChat(ChatEvent event) {
-        AbstractPaint paint = api.getPaint(event.getSender());
+        Paint paint = api.getPaint(event.getSender());
         if(paint != null && paint.isStopChat()) {
             event.setCancelled(true);
         }

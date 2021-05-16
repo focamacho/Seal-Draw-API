@@ -1,7 +1,7 @@
 package com.focamacho.sealdrawapi.bukkit.command;
 
 import com.focamacho.sealdrawapi.SealDrawAPI;
-import com.focamacho.sealdrawapi.api.AbstractPaint;
+import com.focamacho.sealdrawapi.api.Paint;
 import com.focamacho.sealdrawapi.api.lib.PaintButton;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -24,7 +24,7 @@ public class DrawCommand implements Listener {
         if(!(sender instanceof Player)) return;
 
         Player player = (Player) sender;
-        AbstractPaint paint = api.getPaint(player);
+        Paint paint = api.getPaint(player);
 
         if(paint != null) {
             if(args.length == 3) {
@@ -67,13 +67,13 @@ public class DrawCommand implements Listener {
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
-        AbstractPaint paint = api.getPaint(event.getPlayer());
+        Paint paint = api.getPaint(event.getPlayer());
         if(paint != null) paint.closePaint(event.getPlayer());
     }
 
     @EventHandler
     public void onChat(AsyncPlayerChatEvent event) {
-        AbstractPaint paint = api.getPaint(event.getPlayer());
+        Paint paint = api.getPaint(event.getPlayer());
         if(paint != null && paint.isStopChat()) {
             event.setCancelled(true);
         }

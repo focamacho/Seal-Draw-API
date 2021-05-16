@@ -1,6 +1,6 @@
 package com.focamacho.sealdrawapi.bukkit.packet;
 
-import com.focamacho.sealdrawapi.api.AbstractPaint;
+import com.focamacho.sealdrawapi.api.Paint;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
@@ -21,7 +21,7 @@ public class ChatPacketHandler extends ChannelDuplexHandler {
     @Override
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
         if(handler.chatPacketClass.isInstance(msg)) {
-            AbstractPaint paint = handler.api.getPaint(player);
+            Paint paint = handler.api.getPaint(player);
             if(paint != null && paint.isStopChat() && !handler.getChatComponent(msg).contains("{\"action\":\"run_command\",\"value\":\"/sdwa")) {
                 return;
             }

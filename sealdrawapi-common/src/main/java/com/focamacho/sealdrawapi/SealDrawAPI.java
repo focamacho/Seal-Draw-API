@@ -1,6 +1,6 @@
 package com.focamacho.sealdrawapi;
 
-import com.focamacho.sealdrawapi.api.AbstractPaint;
+import com.focamacho.sealdrawapi.api.Paint;
 import com.focamacho.sealdrawapi.api.Drawing;
 import com.focamacho.sealdrawapi.impl.Implementations;
 
@@ -26,9 +26,9 @@ public class SealDrawAPI {
      * @param drawing o desenho desejado.
      * @return o novo "editor".
      */
-    public AbstractPaint createPaint(Drawing drawing) {
+    public Paint createPaint(Drawing drawing) {
         try {
-            return (AbstractPaint) Implementations.paintConstructor.newInstance(this, drawing);
+            return (Paint) Implementations.paintConstructor.newInstance(this, drawing);
         } catch (Exception ignored) {
             return null;
         }
@@ -44,8 +44,8 @@ public class SealDrawAPI {
      * ou null caso o jogador não esteja com nenhum
      * editor aberto.
      */
-    public AbstractPaint getPaint(Object player) {
-        return AbstractPaint.getPaint(this, player);
+    public Paint getPaint(Object player) {
+        return Paint.getPaint(this, player);
     }
 
     /**

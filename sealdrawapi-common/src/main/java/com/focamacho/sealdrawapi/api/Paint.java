@@ -13,9 +13,9 @@ import java.util.*;
  * no chat.
  */
 @SuppressWarnings({"unused", "UnusedReturnValue"})
-public abstract class AbstractPaint {
+public abstract class Paint {
 
-    private static final Map<SealDrawAPI, List<AbstractPaint>> allPaints = new HashMap<>();
+    private static final Map<SealDrawAPI, List<Paint>> allPaints = new HashMap<>();
 
     private final SealDrawAPI api;
 
@@ -45,7 +45,7 @@ public abstract class AbstractPaint {
      *
      * @param drawing o desenho para editar.
      */
-    public AbstractPaint(SealDrawAPI api, Drawing drawing) {
+    public Paint(SealDrawAPI api, Drawing drawing) {
         this.drawing = drawing;
         this.api = api;
 
@@ -70,7 +70,7 @@ public abstract class AbstractPaint {
 
         //Verificar se o jogador não possui outro editor
         //aberto. Se sim, fechá-lo.
-        AbstractPaint paint = getPaint(api, player);
+        Paint paint = getPaint(api, player);
         if(paint != null) paint.closePaint(player);
 
         players.put(player, '0');
@@ -129,9 +129,9 @@ public abstract class AbstractPaint {
      * ou null caso o jogador não esteja com nenhum
      * editor aberto.
      */
-    public static AbstractPaint getPaint(SealDrawAPI api, Object player) {
+    public static Paint getPaint(SealDrawAPI api, Object player) {
         if(!allPaints.containsKey(api)) allPaints.put(api, new ArrayList<>());
-        for (AbstractPaint paint : allPaints.get(api)) {
+        for (Paint paint : allPaints.get(api)) {
             if(paint.isEditing(player)) return paint;
         }
         return null;
@@ -185,7 +185,7 @@ public abstract class AbstractPaint {
      *
      * @return esse objeto.
      */
-    public AbstractPaint clear() {
+    public Paint clear() {
         for(int row = 0; row < this.drawing.getRows(); row++) {
             for(int column = 0; column < this.drawing.getColumns(); column++) {
                 this.drawing.setColor(row, column, this.drawing.getDefaultColor());
@@ -204,7 +204,7 @@ public abstract class AbstractPaint {
      * @param spaces a quantia de espaços.
      * @return esse objeto.
      */
-    public AbstractPaint setSpaces(int spaces) {
+    public Paint setSpaces(int spaces) {
         this.spaces = spaces;
         return this;
     }
@@ -222,7 +222,7 @@ public abstract class AbstractPaint {
      *                antes do desenho.
      * @return esse objeto.
      */
-    public AbstractPaint setBeforeMessages(boolean isRaw, String... messages) {
+    public Paint setBeforeMessages(boolean isRaw, String... messages) {
         this.isBeforeRaw = isRaw;
         this.beforeMessages = Arrays.asList(messages);
         return this;
@@ -262,7 +262,7 @@ public abstract class AbstractPaint {
      *                antes do desenho.
      * @return esse objeto.
      */
-    public AbstractPaint setAfterMessage(boolean isRaw, String... messages) {
+    public Paint setAfterMessage(boolean isRaw, String... messages) {
         this.isAfterRaw = isRaw;
         this.afterMessages = Arrays.asList(messages);
         return this;
@@ -297,7 +297,7 @@ public abstract class AbstractPaint {
      * @param colors as cores disponíveis.
      * @return esse objeto.
      */
-    public AbstractPaint setAvailableColors(char... colors) {
+    public Paint setAvailableColors(char... colors) {
         this.availableColors = colors;
         return this;
     }
@@ -317,7 +317,7 @@ public abstract class AbstractPaint {
      * @param action a ação que acontecerá ao clicar no botão.
      * @return esse objeto.
      */
-    public AbstractPaint setButton(String placeholder, String text, String hover, IPaintRunnable action) {
+    public Paint setButton(String placeholder, String text, String hover, IPaintRunnable action) {
         buttons.put(placeholder.toLowerCase(), PaintButton.create(placeholder).setText(text).setHover(hover).setAction(action));
         return this;
     }
@@ -328,7 +328,7 @@ public abstract class AbstractPaint {
      * @param placeholder o placeholder do botão que será removido.
      * @return esse objeto.
      */
-    public AbstractPaint removeButton(String placeholder) {
+    public Paint removeButton(String placeholder) {
         this.buttons.remove(placeholder.toLowerCase());
         return this;
     }
@@ -352,7 +352,7 @@ public abstract class AbstractPaint {
      *              o mouse no botão.
      * @return esse objeto.
      */
-    public AbstractPaint setColorSelectorText(String text, String hover) {
+    public Paint setColorSelectorText(String text, String hover) {
         this.colorButton = ChatButton.create().setText(text.replace("&", "§").replace("\\n", "\n").replace("\n", "\\n"))
                 .setHoverText(hover.replace("&", "§").replace("\\n", "\n").replace("\n", "\\n"))
                 .setAction(ChatButton.ActionType.RUN_COMMAND, "/sdwa c %color%");
@@ -454,7 +454,7 @@ public abstract class AbstractPaint {
      *                 ser executado.
      * @return esse objeto.
      */
-    public AbstractPaint setOnOpen(IPaintRunnable onOpen) {
+    public Paint setOnOpen(IPaintRunnable onOpen) {
         this.onOpen = onOpen;
         return this;
     }
@@ -472,7 +472,7 @@ public abstract class AbstractPaint {
      *                 ser executado.
      * @return esse objeto.
      */
-    public AbstractPaint setOnUpdate(IPaintRunnable onUpdate) {
+    public Paint setOnUpdate(IPaintRunnable onUpdate) {
         this.onUpdate = onUpdate;
         return this;
     }
@@ -486,7 +486,7 @@ public abstract class AbstractPaint {
      *                 ser executado.
      * @return esse objeto.
      */
-    public AbstractPaint setOnClose(IPaintRunnable onClose) {
+    public Paint setOnClose(IPaintRunnable onClose) {
         this.onClose = onClose;
         return this;
     }
@@ -530,7 +530,7 @@ public abstract class AbstractPaint {
      *             para não pausar.
      * @return esse objeto.
      */
-    public AbstractPaint setStopChat(boolean stop) {
+    public Paint setStopChat(boolean stop) {
         this.stopChat = stop;
         return this;
     }

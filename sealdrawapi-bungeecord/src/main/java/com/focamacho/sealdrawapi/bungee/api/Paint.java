@@ -1,13 +1,12 @@
 package com.focamacho.sealdrawapi.bungee.api;
 
 import com.focamacho.sealdrawapi.SealDrawAPI;
-import com.focamacho.sealdrawapi.api.AbstractPaint;
 import com.focamacho.sealdrawapi.api.Drawing;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.chat.ComponentSerializer;
 
 @SuppressWarnings("unused")
-public class Paint extends AbstractPaint {
+public class Paint extends com.focamacho.sealdrawapi.api.Paint {
 
     public Paint(SealDrawAPI api, Drawing drawing) {
         super(api, drawing);
