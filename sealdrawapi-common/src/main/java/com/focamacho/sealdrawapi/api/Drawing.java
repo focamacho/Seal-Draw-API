@@ -91,6 +91,24 @@ public class Drawing {
     }
 
     /**
+     * Define o desenho atual por meio de uma
+     * String. A string deve ter sido gerada anteriormente
+     * pelo método Drawing#toString.
+     *
+     * @param drawing a string contendo o desenho.
+     * @return esse desenho.
+     */
+    public Drawing setString(String drawing) {
+        String[] split = drawing.split("\n");
+        for(int row = 0; row < rows; row++) {
+            for(int column = 0; column < columns; column++) {
+                this.setColor(row, column, split[row].charAt(column));
+            }
+        }
+        return this;
+    }
+
+    /**
      * Retorna a array onde as cores do
      * desenho são armazenadas.
      *

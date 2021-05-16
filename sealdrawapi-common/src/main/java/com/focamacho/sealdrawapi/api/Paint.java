@@ -178,9 +178,10 @@ public abstract class Paint {
     public void setColor(int row, int column, char color) {
         char actualColor = this.getDrawing().getColor(row, column);
         if(actualColor == color) return;
-        addUndoTask(() -> this.getDrawing().setColor(row, column, actualColor), () -> this.getDrawing().setColor(row, column, color));
-        redoTasks.clear();
+        String oldDrawing = this.getDrawing().toString();
         this.getDrawing().setColor(row, column, color);
+        addUndoTask(oldDrawing, this.getDrawing().toString());
+        redoTasks.clear();
     }
 
     /**
@@ -195,11 +196,11 @@ public abstract class Paint {
      * @param color a cor desejada.
      */
     public void fillColor(int row, int column, char color) {
-        char actualColor = this.getDrawing().getColor(row, column);
-        if(actualColor == color) return;
-        addUndoTask(() -> this.getDrawing().fillColor(row, column, actualColor), () -> this.getDrawing().fillColor(row, column, color));
-        redoTasks.clear();
+        if(this.getDrawing().getColor(row, column) == color) return;
+        String oldDrawing = this.getDrawing().toString();
         this.getDrawing().fillColor(row, column, color);
+        addUndoTask(oldDrawing, this.getDrawing().toString());
+        redoTasks.clear();
     }
 
     /**
@@ -227,15 +228,15 @@ public abstract class Paint {
     /**
      * Adiciona uma ação na lista de desfazeres.
      *
-     * @param undoAction a ação para desfazer.
-     * @param redoAction a ação para refazer.
+     * @param oldDrawing o desenho anterior à modificação.
+     * @param newDrawing o desenho após a modificação.
      */
-    private void addUndoTask(Runnable undoAction, Runnable redoAction) {
+    private void addUndoTask(String oldDrawing, String newDrawing) {
         undoTasks.addFirst(() -> {
-            undoAction.run();
+            this.getDrawing().setString(oldDrawing);
             redoTasks.addFirst(() -> {
-                redoAction.run();
-                addUndoTask(undoAction, redoAction);
+                this.getDrawing().setString(newDrawing);
+                addUndoTask(oldDrawing, newDrawing);
             });
             if(redoTasks.size() > 20) redoTasks.removeLast();
         });
@@ -283,26 +284,14 @@ public abstract class Paint {
     public Paint clear() {
         if(this.drawing.isEmpty()) return this;
 
-        char[][] actualDrawing = Arrays.copyOf(this.getDrawing().toArray(), this.getDrawing().toArray().length);
-        addUndoTask(() -> {
-            for(int row = 0; row < this.drawing.getRows(); row++) {
-                for(int column = 0; column < this.drawing.getColumns(); column++) {
-                    this.drawing.setColor(row, column, actualDrawing[row][column]);
-                }
-            }
-        }, () -> {
-            for(int row = 0; row < this.drawing.getRows(); row++) {
-                for(int column = 0; column < this.drawing.getColumns(); column++) {
-                    this.drawing.setColor(row, column, this.drawing.getDefaultColor());
-                }
-            }
-        });
-
+        String oldDrawing = this.getDrawing().toString();
         for(int row = 0; row < this.drawing.getRows(); row++) {
             for(int column = 0; column < this.drawing.getColumns(); column++) {
                 this.drawing.setColor(row, column, this.drawing.getDefaultColor());
             }
         }
+        addUndoTask(oldDrawing, this.getDrawing().toString());
+        redoTasks.clear();
         return this;
     }
 
