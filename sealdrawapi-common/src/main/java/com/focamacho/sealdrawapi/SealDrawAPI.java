@@ -4,6 +4,8 @@ import com.focamacho.sealdrawapi.api.Drawing;
 import com.focamacho.sealdrawapi.api.Paint;
 import com.focamacho.sealdrawapi.impl.Implementations;
 
+import java.lang.reflect.InvocationTargetException;
+
 @SuppressWarnings("unused")
 public class SealDrawAPI {
 
@@ -29,7 +31,8 @@ public class SealDrawAPI {
     public Paint createPaint(Drawing drawing) {
         try {
             return (Paint) Implementations.paintConstructor.newInstance(this, drawing);
-        } catch (Exception ignored) {
+        } catch (InvocationTargetException | InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
             return null;
         }
     }

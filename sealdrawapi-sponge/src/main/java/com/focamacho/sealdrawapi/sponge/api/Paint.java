@@ -21,10 +21,6 @@ public class Paint extends com.focamacho.sealdrawapi.api.Paint {
             Sponge.getCommandManager().process(Sponge.getServer().getConsole(), "tellraw " + p.getName() + " \"\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n§aAlgo foi confirmado... Acho que você deveria programar o que\\n§aacontece quando alguém confirma o desenho.\"");
             closePaint(p);
         });
-        setButton("clean", "§f[Limpar]", "§fClique aqui para limpar.", (player, paint) -> {
-            paint.clear();
-            paint.updatePaint();
-        });
     }
 
     @Override

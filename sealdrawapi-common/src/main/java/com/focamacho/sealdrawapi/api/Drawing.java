@@ -91,6 +91,16 @@ public class Drawing {
     }
 
     /**
+     * Retorna a array onde as cores do
+     * desenho são armazenadas.
+     *
+     * @return a array do desenho.
+     */
+    public char[][] toArray() {
+        return this.drawing;
+    }
+
+    /**
      * Retorna o número de linhas
      * que esse desenho possui.
      *
@@ -149,10 +159,35 @@ public class Drawing {
      * @param column a coluna em que o pixel
      *               se encontra.
      * @param color a cor desejada.
-     * @return esse "editor".
+     * @return esse desenho.
      */
     public Drawing setColor(int row, int column, char color) {
         this.drawing[row][column] = color;
+        return this;
+    }
+
+    /**
+     * Função no estilo "balde de tinta". Pinta todos
+     * os pixels próximos que possuem a mesma
+     * cor do pixel inserido.
+     *
+     * @param row a linha em que o pixel
+     *            se encontra.
+     * @param column a coluna em que o pixel
+     *               se encontra.
+     * @param replace a cor desejada.
+     * @return esse desenho.
+     */
+    public Drawing fillColor(int row, int column, char replace) {
+        char color = getColor(row, column);
+        if(color == replace) return this;
+
+        setColor(row, column, replace);
+        if(getColor(row - 1, column) == color) fillColor(row - 1, column, replace);
+        if(getColor(row + 1, column) == color) fillColor(row + 1, column, replace);
+        if(getColor(row, column - 1) == color) fillColor(row, column - 1, replace);
+        if(getColor(row, column + 1) == color) fillColor(row, column + 1, replace);
+
         return this;
     }
 
@@ -206,6 +241,23 @@ public class Drawing {
             }
         }
         return newDrawing;
+    }
+
+    /**
+     * Verifica se esse desenho é somente
+     * uma tela vazia.
+     *
+     * @return true se o desenho possui somente
+     * pixels da cor padrão do mesmo, ou false caso
+     * ele já tenha sido modificado.
+     */
+    public boolean isEmpty() {
+        for(int row = 0; row < this.rows; row++) {
+            for(int column = 0; column < this.columns; column++) {
+                if(getColor(row, column) != getDefaultColor()) return false;
+            }
+        }
+        return true;
     }
 
 }

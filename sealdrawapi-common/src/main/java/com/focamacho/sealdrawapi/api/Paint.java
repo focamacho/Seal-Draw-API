@@ -39,6 +39,9 @@ public abstract class Paint {
     protected IPaintRunnable onUpdate = (player, paint) -> {};
     protected IPaintRunnable onClose = (player, paint) -> {};
 
+    private final LinkedList<Runnable> undoTasks = new LinkedList<>();
+    private final LinkedList<Runnable> redoTasks = new LinkedList<>();
+
     /**
      * O construtor padrão para a criação
      * de um "editor" de imagem.
@@ -56,7 +59,21 @@ public abstract class Paint {
         beforeMessages.add("                             §d§lSeal Draw API §%selected%█");
         beforeMessages.add("                      %colorselector%");
         beforeMessages.add("");
-        afterMessages.add("                    %cancel% %clean% %confirm%");
+        afterMessages.add("                 %undo% %cancel% %clean% %confirm% %redo%");
+
+        //Botões padrões
+        setButton("clean", "§f[Limpar]", "§fClique aqui para limpar.", (player, paint) -> {
+            paint.clear();
+            paint.updatePaint();
+        });
+        setButton("undo", "<", "§fClique para desfazer a última ação.", (player, paint) -> {
+           paint.undo();
+           paint.updatePaint();
+        });
+        setButton("redo", ">", "§fClique para refazer a última ação.", (player, paint) -> {
+            paint.redo();
+            paint.updatePaint();
+        });
     }
 
     /**
@@ -148,6 +165,83 @@ public abstract class Paint {
     }
 
     /**
+     * Define a cor de um dos pixels
+     * do desenho.
+     *
+     * @param row a linha em que o pixel
+     *            se encontra.
+     * @param column a coluna em que o pixel
+     *               se encontra.
+     * @param color a cor desejada.
+     */
+    public void setColor(int row, int column, char color) {
+        char actualColor = this.getDrawing().getColor(row, column);
+        if(actualColor == color) return;
+        addUndoTask(() -> this.getDrawing().setColor(row, column, actualColor), () -> this.getDrawing().setColor(row, column, color));
+        redoTasks.clear();
+        this.getDrawing().setColor(row, column, color);
+    }
+
+    /**
+     * Função no estilo "balde de tinta". Pinta todos
+     * os pixels próximos que possuem a mesma
+     * cor do pixel inserido.
+     *
+     * @param row a linha em que o pixel
+     *            se encontra.
+     * @param column a coluna em que o pixel
+     *               se encontra.
+     * @param color a cor desejada.
+     */
+    public void fillColor(int row, int column, char color) {
+        char actualColor = this.getDrawing().getColor(row, column);
+        if(actualColor == color) return;
+        addUndoTask(() -> this.getDrawing().fillColor(row, column, actualColor), () -> this.getDrawing().fillColor(row, column, color));
+        redoTasks.clear();
+        this.getDrawing().fillColor(row, column, color);
+    }
+
+    /**
+     * Desfaz a última ação de coloração
+     * de pixels efetuada.
+     */
+    public void undo() {
+        if(!undoTasks.isEmpty()) {
+            undoTasks.getFirst().run();
+            undoTasks.removeFirst();
+        }
+    }
+
+    /**
+     * Refaz a última ação de coloração
+     * de pixels desfeita.
+     */
+    public void redo() {
+        if(!redoTasks.isEmpty()) {
+            redoTasks.getFirst().run();
+            redoTasks.removeFirst();
+        }
+    }
+
+    /**
+     * Adiciona uma ação na lista de desfazeres.
+     *
+     * @param undoAction a ação para desfazer.
+     * @param redoAction a ação para refazer.
+     */
+    private void addUndoTask(Runnable undoAction, Runnable redoAction) {
+        undoTasks.addFirst(() -> {
+            undoAction.run();
+            redoTasks.addFirst(() -> {
+                redoAction.run();
+                addUndoTask(undoAction, redoAction);
+            });
+            if(redoTasks.size() > 20) redoTasks.removeLast();
+        });
+        if(undoTasks.size() > 20) undoTasks.removeLast();
+    }
+
+    /**
      * Retorna a cor que o jogador
      * possui selecionada no
      * editor.
@@ -186,6 +280,23 @@ public abstract class Paint {
      * @return esse objeto.
      */
     public Paint clear() {
+        if(this.drawing.isEmpty()) return this;
+
+        char[][] actualDrawing = this.getDrawing().toArray();
+        addUndoTask(() -> {
+            for(int row = 0; row < this.drawing.getRows(); row++) {
+                for(int column = 0; column < this.drawing.getColumns(); column++) {
+                    this.drawing.setColor(row, column, actualDrawing[row][column]);
+                }
+            }
+        }, () -> {
+            for(int row = 0; row < this.drawing.getRows(); row++) {
+                for(int column = 0; column < this.drawing.getColumns(); column++) {
+                    this.drawing.setColor(row, column, this.drawing.getDefaultColor());
+                }
+            }
+        });
+
         for(int row = 0; row < this.drawing.getRows(); row++) {
             for(int column = 0; column < this.drawing.getColumns(); column++) {
                 this.drawing.setColor(row, column, this.drawing.getDefaultColor());

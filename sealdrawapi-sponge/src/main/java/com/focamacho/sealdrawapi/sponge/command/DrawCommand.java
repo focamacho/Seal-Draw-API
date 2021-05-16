@@ -32,7 +32,7 @@ public class DrawCommand {
                     try {
                         int row = Integer.parseInt(args[1]);
                         int column = Integer.parseInt(args[2]);
-                        paint.getDrawing().setColor(row, column, paint.getSelectedColor(player));
+                        paint.setColor(row, column, paint.getSelectedColor(player));
                         paint.updatePaint();
                     } catch (NumberFormatException ignored) {}
                 }
