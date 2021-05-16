@@ -11,55 +11,17 @@ import org.spongepowered.api.event.command.SendCommandEvent;
 import org.spongepowered.api.event.message.MessageChannelEvent;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
 
-public class DrawCommand {
-
-    private SealDrawAPI api;
+public class DrawCommand extends com.focamacho.sealdrawapi.command.DrawCommand {
 
     public DrawCommand(SealDrawAPI api) {
-        this.api = api;
-    }
-
-    public void execute(CommandSource sender, String[] args) {
-        if(!(sender instanceof Player)) return;
-
-        Player player = (Player) sender;
-        Paint paint = api.getPaint(player);
-
-        if(paint != null) {
-            if(args.length == 3) {
-                //Colorir um pixel
-                if(args[0].equalsIgnoreCase("p")) {
-                    try {
-                        int row = Integer.parseInt(args[1]);
-                        int column = Integer.parseInt(args[2]);
-                        paint.setColor(row, column, paint.getSelectedColor(player));
-                        paint.updatePaint();
-                    } catch (NumberFormatException ignored) {}
-                }
-            } else if(args.length == 2) {
-                //Trocar a cor selecionada
-                if(args[0].equalsIgnoreCase("c")) {
-                    try {
-                        char color = args[1].charAt(0);
-                        paint.setSelectedColor(player, color);
-                        paint.updatePaint();
-                    } catch (IndexOutOfBoundsException ignored) {}
-                }
-
-                //Botões
-                if(args[0].equalsIgnoreCase("b")) {
-                    PaintButton button = paint.getButton(args[1]);
-                    if(button != null) button.getAction().run(player, paint);
-                }
-            }
-        }
+        super(api);
     }
 
     @Listener(order = Order.PRE)
     public void onCommand(SendCommandEvent event) {
         if(event.getCommand().startsWith("sdwa")) {
             if(!(event.getSource() instanceof CommandSource)) return;
-            execute((CommandSource) event.getSource(), event.getArguments().split(" "));
+            execute(event.getSource(), event.getArguments().split(" "));
             event.setCancelled(true);
         }
     }
