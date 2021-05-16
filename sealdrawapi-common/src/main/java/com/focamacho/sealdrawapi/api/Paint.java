@@ -407,7 +407,7 @@ public abstract class Paint {
             stringBuilder.append(replacePlaceholders((this.isBeforeRaw ? "\"}," + msg + ",{\"text\":\"" + (i + 1 == afterMessages.size() ? "" : "\\n") : msg + "\"},{\"text\":\"" + (i + 1 == afterMessages.size() ? "" : "\\n")), player));
         }
 
-        return stringBuilder.append("\"}]").toString().replace("{\"text\":\"\"},", "");
+        return stringBuilder.append("\"}]").toString().replace("{\"text\":\"\"},", "").replace("&", "§");
     }
 
     /**
