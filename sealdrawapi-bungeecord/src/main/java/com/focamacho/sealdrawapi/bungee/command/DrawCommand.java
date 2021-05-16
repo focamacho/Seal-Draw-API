@@ -2,6 +2,7 @@ package com.focamacho.sealdrawapi.bungee.command;
 
 import com.focamacho.sealdrawapi.SealDrawAPI;
 import com.focamacho.sealdrawapi.api.AbstractPaint;
+import com.focamacho.sealdrawapi.api.lib.PaintButton;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ChatEvent;
@@ -45,19 +46,10 @@ public class DrawCommand implements Listener {
                     } catch (IndexOutOfBoundsException ignored) {}
                 }
 
-                //Botões de confirmar, cancelar e limpar
+                //Botões
                 if(args[0].equalsIgnoreCase("b")) {
-                    if(args[1].equalsIgnoreCase("co")) {
-                        paint.getOnConfirm().run(player, paint);
-                        paint.closePaint(player);
-                    } else if(args[1].equalsIgnoreCase("ca")) {
-                        paint.getOnCancel().run(player, paint);
-                        paint.closePaint(player);
-                    } else if(args[1].equalsIgnoreCase("cl")) {
-                        paint.getOnClean().run(player, paint);
-                        paint.clear();
-                        paint.updatePaint();
-                    }
+                    PaintButton button = paint.getButton(args[1]);
+                    if(button != null) button.getAction().run(player, paint);
                 }
             }
         }

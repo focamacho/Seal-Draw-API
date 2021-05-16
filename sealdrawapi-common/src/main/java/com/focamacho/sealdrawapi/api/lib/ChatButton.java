@@ -6,6 +6,7 @@ import java.util.AbstractMap;
  * Classe que que representa um
  * texto com uma ação clicável no chat.
  */
+@SuppressWarnings("unused")
 public class ChatButton {
 
     private String text = "";
