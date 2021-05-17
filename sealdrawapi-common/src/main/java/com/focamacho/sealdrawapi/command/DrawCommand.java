@@ -33,7 +33,7 @@ public abstract class DrawCommand {
 
                             //Comparar se o pixel clicado é o mesmo do que o clicado anteriormente, e se
                             //não se passaram mais do que 0.2s desde o último click
-                            if(oldClick != null && oldClick.getRow() == newClick.getRow() && oldClick.getColumn() == newClick.getColumn() && oldClick.getColor() == newClick.getColor() && (newClick.getTimestamp() - oldClick.getTimestamp()) <= 200) {
+                            if(oldClick != null && oldClick.getRow() == newClick.getRow() && oldClick.getColumn() == newClick.getColumn() && oldClick.getColor() == newClick.getColor() && (newClick.getTimestamp() - oldClick.getTimestamp()) <= 300) {
                                 paint.getDrawing().setColor(row, column, oldClick.getOldColor());
                                 paint.fillColor(row, column, newClick.getColor());
                             } else paint.setColor(row, column, paint.getSelectedColor(player));
