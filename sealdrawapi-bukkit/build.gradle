@@ -15,7 +15,7 @@ dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
     compileOnly group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.14.1'
     compileOnly group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.14.1'
-    compileOnly group: 'io.netty', name: 'netty-all', version: '4.1.63.Final'
+    compileOnly group: 'io.netty', name: 'netty-all', version: '4.1.65.Final'
 }
 
 processResources {
