@@ -11,7 +11,7 @@ repositories {
 dependencies {
     compile project(':sealdrawapi-common')
     compileOnly 'net.md-5:bungeecord-api:1.16-R0.5-SNAPSHOT'
-    compileOnly 'de.exceptionflug:protocolize-api:1.6.8-SNAPSHOT'
+    compileOnly 'de.exceptionflug:protocolize-api:1.7.1-SNAPSHOT'
 }
 
 processResources {
